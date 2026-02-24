@@ -1,0 +1,310 @@
+import os
+import json
+import asyncio
+import time
+from typing import Dict, Any, List, Optional
+from langchain_mcp_adapters.client import MultiServerMCPClient
+from langchain_openai import ChatOpenAI
+from langgraph.prebuilt import create_react_agent
+from dotenv import load_dotenv
+
+
+class MCPManager:
+    """MCP工具管理器 - 负责MCP连接、工具发现和权限控制"""
+    
+    def __init__(self, config_file: str = "mcp_config.json"):
+        # 加载环境变量
+        load_dotenv()
+        
+        # 加载配置文件
+        self.config = self._load_config(config_file)
+        
+        # 初始化大模型
+        self.llm = self._init_llm()
+        
+        # MCP客户端和工具
+        self.client: Optional[MultiServerMCPClient] = None
+        self.tools: List = []
+        self.tools_by_server: Dict[str, List] = {}
+        
+        # 智能体权限配置
+        self.agent_permissions = self._load_agent_permissions()
+        
+        # 对话历史
+        self.conversation_history: List[Dict[str, str]] = []
+    
+    def _load_config(self, config_file: str) -> Dict[str, Any]:
+        """加载配置文件"""
+        try:
+            with open(config_file, 'r', encoding='utf-8') as f:
+                config = json.load(f)
+            return config
+        except FileNotFoundError:
+            return {"servers": {}, "agent_permissions": {}}
+        except json.JSONDecodeError as e:
+            return {"servers": {}, "agent_permissions": {}}
+    
+    def _init_llm(self) -> ChatOpenAI:
+        """初始化大模型 - 从环境变量加载配置"""
+        # 大模型配置只从环境变量加载
+        api_key = os.getenv("LLM_API_KEY", "your_api_key_here")
+        base_url = os.getenv("LLM_BASE_URL", "https://api.openai.com/v1")
+        model_name = os.getenv("LLM_MODEL", "gpt-4")
+        temperature = float(os.getenv("LLM_TEMPERATURE", "0.1"))
+        max_tokens = int(os.getenv("LLM_MAX_TOKENS", "4000"))
+
+        llm = ChatOpenAI(
+            model=model_name,
+            api_key=api_key,
+            base_url=base_url,
+            temperature=temperature,
+            max_tokens=max_tokens
+        )
+
+        return llm
+    
+    def _load_agent_permissions(self) -> Dict[str, bool]:
+        """从环境变量加载智能体MCP工具使用权限"""
+        permissions = {}
+        
+        # 从环境变量加载权限配置
+        env_mapping = {
+            "company_overview_analyst": "COMPANY_OVERVIEW_ANALYST_MCP_ENABLED",
+            "market_analyst": "MARKET_ANALYST_MCP_ENABLED",
+            "sentiment_analyst": "SENTIMENT_ANALYST_MCP_ENABLED",
+            "news_analyst": "NEWS_ANALYST_MCP_ENABLED",
+            "fundamentals_analyst": "FUNDAMENTALS_ANALYST_MCP_ENABLED",
+            "shareholder_analyst": "SHAREHOLDER_ANALYST_MCP_ENABLED",
+            "product_analyst": "PRODUCT_ANALYST_MCP_ENABLED",
+            "bull_researcher": "BULL_RESEARCHER_MCP_ENABLED",
+            "bear_researcher": "BEAR_RESEARCHER_MCP_ENABLED",
+            "research_manager": "RESEARCH_MANAGER_MCP_ENABLED",
+            "trader": "TRADER_MCP_ENABLED",
+            "aggressive_risk_analyst": "AGGRESSIVE_RISK_ANALYST_MCP_ENABLED",
+            "safe_risk_analyst": "SAFE_RISK_ANALYST_MCP_ENABLED",
+            "neutral_risk_analyst": "NEUTRAL_RISK_ANALYST_MCP_ENABLED",
+            "risk_manager": "RISK_MANAGER_MCP_ENABLED"
+        }
+        
+        for agent_name, env_var in env_mapping.items():
+            env_value = os.getenv(env_var)
+            if env_value is not None:
+                permissions[agent_name] = env_value.lower() == 'true'
+            else:
+                # 如果环境变量未设置，默认为false
+                permissions[agent_name] = False
+
+        return permissions
+    
+    async def initialize(self, mcp_config: Optional[Dict] = None) -> bool:
+        """初始化MCP客户端和工具"""
+        try:
+            # 如果已经有客户端，先关闭
+            if self.client:
+                await self.close()
+            
+            # 使用配置创建MCP客户端
+            # 兼容两种配置格式：mcpServers 和 servers
+            if mcp_config:
+                config = mcp_config
+            else:
+                config = self.config.get("mcpServers") or self.config.get("servers", {})
+
+            if not config:
+                return False
+
+            self.client = MultiServerMCPClient(config)
+            self.server_configs = config
+
+            all_tools = []
+            tools_by_server = {}
+            
+            for server_name in self.server_configs.keys():
+                try:
+                    # 抑制MCP客户端的SSE解析错误日志（这些错误不影响功能）
+                    import logging
+                    mcp_logger = logging.getLogger('mcp')
+                    original_level = mcp_logger.level
+                    mcp_logger.setLevel(logging.CRITICAL)
+
+                    try:
+                        server_tools = await self.client.get_tools(server_name=server_name)
+                    finally:
+                        mcp_logger.setLevel(original_level)
+
+                    # 对工具名做合法化与去重
+                    unique_tools = []
+                    tool_names = set()
+                    
+                    for tool in server_tools:
+                        # 合法化工具名（去除特殊字符，只保留字母数字下划线）
+                        import re
+                        clean_name = re.sub(r'[^a-zA-Z0-9_]', '_', tool.name)
+                        
+                        # 去重检查
+                        if clean_name not in tool_names:
+                            tool_names.add(clean_name)
+                            # 如果工具名被修改了，更新工具对象
+                            if clean_name != tool.name:
+                                tool.name = clean_name
+                            unique_tools.append(tool)
+
+                    tools_by_server[server_name] = unique_tools
+                    all_tools.extend(unique_tools)
+
+                except Exception as e:
+                    error_msg = str(e)
+                    tools_by_server[server_name] = []
+
+            self.tools = all_tools
+            self.tools_by_server = tools_by_server
+
+            return True
+
+        except Exception as e:
+            # 确保清理状态
+            self.client = None
+            self.tools = []
+            self.tools_by_server = {}
+            return False
+
+    
+    def get_tools_for_agent(self, agent_name: str) -> List:
+        """获取指定智能体可用的工具列表"""
+        # 检查权限
+        if not self.agent_permissions.get(agent_name, False):
+            return []
+
+        # 检查客户端连接状态
+        if not self.client or not self.tools:
+            return []
+
+        # 返回所有可用工具
+        return self.tools
+    
+    def create_agent_with_tools(self, agent_name: str):
+        """为指定智能体创建带工具的React智能体"""
+        tools = self.get_tools_for_agent(agent_name)
+        
+        if not tools:
+            # 没有工具权限，返回基础智能体
+            return create_react_agent(self.llm, [])
+        
+        # 创建带工具的智能体
+        agent = create_react_agent(self.llm, tools)
+        return agent
+    
+    def get_tools_info(self) -> Dict[str, Any]:
+        """获取工具信息列表，按MCP服务器分组"""
+        if not self.tools_by_server:
+            return {"servers": {}, "total_tools": 0, "server_count": 0}
+        
+        servers_info = {}
+        total_tools = 0
+        
+        for server_name, server_tools in self.tools_by_server.items():
+            tools_info = []
+            
+            for tool in server_tools:
+                tool_info = {
+                    "name": tool.name,
+                    "description": tool.description,
+                    "parameters": {},
+                    "required": []
+                }
+                
+                # 获取工具参数schema
+                try:
+                    schema = None
+                    if hasattr(tool, 'args_schema') and tool.args_schema:
+                        if isinstance(tool.args_schema, dict):
+                            schema = tool.args_schema
+                        elif hasattr(tool.args_schema, 'model_json_schema'):
+                            schema = tool.args_schema.model_json_schema()
+                    
+                    if schema and isinstance(schema, dict):
+                        if 'properties' in schema:
+                            tool_info["parameters"] = schema['properties']
+                            tool_info["required"] = schema.get('required', [])
+                
+                except Exception as e:
+                    pass
+
+                tools_info.append(tool_info)
+            
+            servers_info[server_name] = {
+                "name": server_name,
+                "tools": tools_info,
+                "tool_count": len(tools_info)
+            }
+            
+            total_tools += len(tools_info)
+        
+        return {
+            "servers": servers_info,
+            "total_tools": total_tools,
+            "server_count": len(servers_info),
+            "agent_permissions": self.agent_permissions
+        }
+    
+    async def call_tool_for_agent(self, agent_name: str, tool_name: str, tool_args: Dict) -> Any:
+        """为指定智能体调用MCP工具"""
+        # 检查权限
+        if not self.agent_permissions.get(agent_name, False):
+            error_msg = f"智能体 {agent_name} 未被授权使用MCP工具"
+            return {"error": error_msg}
+
+        # 检查客户端连接状态
+        if not self.client:
+            error_msg = "MCP客户端未初始化或连接已断开"
+            return {"error": error_msg}
+
+        # 查找工具
+        target_tool = None
+        for tool in self.tools:
+            if tool.name == tool_name:
+                target_tool = tool
+                break
+
+        if not target_tool:
+            error_msg = f"未找到工具: {tool_name}"
+            return {"error": error_msg}
+
+        try:
+            # 调用工具
+            result = await target_tool.ainvoke(tool_args)
+            return result
+        except Exception as e:
+            error_msg = f"工具调用失败: {e}"
+            # 如果是连接错误，清理客户端状态
+            if "BrokenResourceError" in str(e) or "connection" in str(e).lower():
+                pass
+                self.client = None
+                self.tools = []
+                self.tools_by_server = {}
+            return {"error": error_msg}
+    
+    async def close(self):
+        """关闭MCP连接"""
+        if self.client:
+            try:
+                # 检查客户端是否有close方法
+                if hasattr(self.client, 'close'):
+                    await self.client.close()
+                # 清理客户端引用
+                self.client = None
+                self.tools = []
+                self.tools_by_server = {}
+            except Exception as e:
+                # 即使出错也要清理引用
+                self.client = None
+                self.tools = []
+                self.tools_by_server = {}
+    
+    def is_agent_mcp_enabled(self, agent_name: str) -> bool:
+        """检查智能体是否启用了MCP工具"""
+        return self.agent_permissions.get(agent_name, False)
+    
+    def get_enabled_agents(self) -> List[str]:
+        """获取启用MCP工具的智能体列表"""
+        return [agent for agent, enabled in self.agent_permissions.items() if enabled]
