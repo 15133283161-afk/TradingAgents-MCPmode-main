@@ -1,15 +1,1 @@
-{
-  "_comment": "安全提醒：请从 .env 文件中读取 TUSHARE_TOKEN 环境变量",
-  "_comment2": "如需重新生成此文件，请参考 mcp_config.example.json",
-  "mcpServers": {
-    "finance-mcp": {
-      "disabled": false,
-      "timeout": 600,
-      "transport": "streamable_http",
-      "url": "https://finvestai.top/mcp",
-      "headers": {
-        "X-Tushare-Token": "bc8515a651ab1e6e04457824f0b8d2636c7fb49a7405502070d5ddf0"
-      }
-    }
-  }
-}
+
