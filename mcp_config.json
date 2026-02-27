@@ -8,7 +8,7 @@
       "transport": "streamable_http",
       "url": "https://finvestai.top/mcp",
       "headers": {
-        "X-Tushare-Token": "bc8515a651ab1e6e04457824f0b8d2636c7fb49a7405502070d5ddf0"
+        "X-Tushare-Token": ""
       }
     }
   }
