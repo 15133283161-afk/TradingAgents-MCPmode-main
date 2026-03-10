@@ -1,0 +1,30 @@
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE / editor
+.vscode/
+.idea/
+
+# Environment & secrets
+.env
+*.env.local
+
+# Streamlit / app artifacts
+.streamlit/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Project outputs
+exports/
+markdown_reports/
+src/dump/
+

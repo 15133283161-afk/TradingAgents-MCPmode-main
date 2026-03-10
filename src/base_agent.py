@@ -162,7 +162,8 @@ class BaseAgent(ABC):
             print(f"\n    ┌─ {'='*76}")
             print(f"    │ 🤖 {agent_display}")
             print(f"    │ {'='*78}")
-            print(f"    │ 📋 任务: {user_message[:100]}{'...' if len(user_message) > 100 else ''}")
+            # 日志中完整输出任务内容，不再截断
+            print(f"    │ 📋 任务: {user_message}")
             print(f"    │ 🛠️  MCP工具: {'✅ 已启用' if self.mcp_enabled else '❌ 未启用'}")
 
             # 确保智能体实例已创建
@@ -268,8 +269,9 @@ class BaseAgent(ABC):
                                 tool_name = tool_call.get('name', 'unknown')
                                 tool_args = tool_call.get('args', {})
                                 tool_id = tool_call.get('id', 'unknown')
-                                args_str = str(tool_args)[:80]
-                                print(f"    │    • {tool_name}({args_str}...)")
+                                # 日志中完整输出工具参数
+                                args_str = str(tool_args)
+                                print(f"    │    • {tool_name}({args_str})")
 
                                 tool_calls_found.append({
                                     'tool_name': tool_name,
@@ -280,8 +282,8 @@ class BaseAgent(ABC):
                         # 检查是否是工具返回结果消息
                         elif hasattr(msg, 'tool_call_id'):
                             tool_result = getattr(msg, 'content', 'No result')
-                            result_preview = str(tool_result)[:100]
-                            print(f"    │ 📊 工具返回: {result_preview}...")
+                            # 日志中完整输出工具返回结果
+                            print(f"    │ 📊 工具返回: {tool_result}")
 
                             # 找到对应的工具调用并记录完整信息
                             for tool_call in tool_calls_found:
@@ -397,10 +399,10 @@ class BaseAgent(ABC):
                         "mcp_used": self.mcp_enabled and self.available_tools
                     })
 
-            # 打印完成信息
-            result_preview = result[:150].replace('\n', ' ')
+            # 打印完成信息（不再截断预览内容）
+            full_result_one_line = str(result).replace('\n', ' ')
             print(f"    │ ✅ 执行完成")
-            print(f"    │ 📝 结果预览: {result_preview}...")
+            print(f"    │ 📝 结果预览: {full_result_one_line}")
             print(f"    └─ {'='*78}")
 
             return result

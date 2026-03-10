@@ -1,47 +1,48 @@
 /* 人工智能实验室 - 专业金融科技界面样式 */
 
-/* ========== 全局设置 ========== */
+/* ========== 全局设置（深色科技金融风） ========== */
 :root {
-    /* 主色调 - 深蓝金融风 */
-    --primary-color: #1a365d;
-    --secondary-color: #2c5282;
-    --accent-color: #3182ce;
-    --success-color: #38a169;
-    --warning-color: #ed8936;
-    --danger-color: #e53e3e;
+    /* 主色调 - 深色霓虹科技风 */
+    --primary-color: #38bdf8;
+    --secondary-color: #22d3ee;
+    --accent-color: #4f46e5;
+    --success-color: #22c55e;
+    --warning-color: #facc15;
+    --danger-color: #f97373;
     
     /* 金融专业色彩 */
-    --gold-color: #d69e2e;
-    --silver-color: #a0aec0;
-    --market-green: #10b981;
-    --market-red: #ef4444;
+    --gold-color: #fbbf24;
+    --silver-color: #94a3b8;
+    --market-green: #22c55e;
+    --market-red: #f97373;
     
-    /* 背景色 */
-    --bg-primary: #f8fafc;
-    --bg-secondary: #e2e8f0;
-    --bg-tertiary: #cbd5e1;
-    --bg-card: rgba(255, 255, 255, 0.8);
+    /* 背景色 - 深色科技面板 */
+    --bg-primary: #020617; /* 页面主背景：接近黑的深蓝 */
+    --bg-secondary: rgba(15, 23, 42, 0.9);
+    --bg-tertiary: rgba(30, 64, 175, 0.25);
+    --bg-card: rgba(15, 23, 42, 0.96);
     
-    /* 文字颜色 */
-    --text-primary: #1e293b;
-    --text-secondary: #475569;
+    /* 文字颜色（在深色背景上） */
+    --text-primary: #e5f0ff;
+    --text-secondary: #cbd5f5;
     --text-muted: #64748b;
     
-    /* 边框和阴影 */
-    --border-color: rgba(30, 41, 59, 0.15);
-    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    /* 边框和阴影（深色发光感） */
+    --border-color: rgba(148, 163, 184, 0.4);
+    --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.9);
+    --shadow-md: 0 18px 40px rgba(15, 23, 42, 0.95);
+    --shadow-lg: 0 25px 80px rgba(15, 23, 42, 1);
     
-    /* 渐变 */
-    --gradient-primary: linear-gradient(135deg, #3498db 0%, #2c5282 100%);
-    --gradient-accent: linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%);
-    --gradient-gold: linear-gradient(135deg, #d69e2e 0%, #b7791f 100%);
+    /* 渐变 - 霓虹蓝紫 */
+    --gradient-primary: linear-gradient(135deg, #22d3ee 0%, #38bdf8 40%, #4f46e5 100%);
+    --gradient-accent: linear-gradient(135deg, rgba(56, 189, 248, 0.18) 0%, rgba(45, 212, 191, 0.22) 40%, rgba(59, 130, 246, 0.35) 100%);
+    --gradient-gold: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
 }
 
 /* ========== 主体样式 ========== */
 .stApp {
-    background: var(--bg-primary);
+    /* 深色科技感背景：顶部稍亮，向下过渡为深蓝黑 */
+    background: radial-gradient(circle at top, #0f172a 0, #020617 55%, #000000 100%);
     color: var(--text-primary);
     font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
@@ -170,16 +171,16 @@
 }
 
 /* ========== Streamlit 内置 st.metric 样式修正 ========== */
-/* 统一将系统概览中的 st.metric 文本强制为深色、可见，避免在深色主题下看不清 */
+/* 在深色背景下强制为浅色文本，确保可见性 */
 [data-testid="stMetric"] [data-testid="stMetricLabel"],
 [data-testid="stMetric"] [data-testid="stMetricLabel"] p {
-    color: #111 !important;
+    color: #e5f0ff !important;
     visibility: visible !important;
 }
 
 [data-testid="stMetric"] [data-testid="stMetricValue"],
 [data-testid="stMetric"] [data-testid="stMetricValue"] div {
-    color: #111 !important;
+    color: #e5f0ff !important;
 }
 
 /* ========== 按钮样式 ========== */

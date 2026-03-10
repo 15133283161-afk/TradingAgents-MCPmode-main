@@ -119,7 +119,9 @@ class AnalysisEngine:
                         'status': 'completed',
                         'timestamp': datetime.now().isoformat(),
                         'agents': [],
-                        'agent_execution_history': agent_history
+                        'agent_execution_history': agent_history,
+                        # 便于前端在分析完成后直接定位并加载该会话
+                        'session_file': str(session_file)
                     }
 
                     # 将 agent_execution_history 列表转换为 agents 列表
@@ -213,6 +215,8 @@ class AnalysisEngine:
             # 更新 session_state
             st.session_state.current_session_data = result_dict
             st.session_state.analysis_completed = True
+            if result_dict.get('session_file'):
+                st.session_state.selected_session_file = result_dict.get('session_file')
 
             if 'chat_history' not in st.session_state:
                 st.session_state.chat_history = []

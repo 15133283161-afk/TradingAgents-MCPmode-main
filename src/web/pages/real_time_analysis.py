@@ -94,7 +94,17 @@ def show_real_time_analysis():
                 </div>
                 """, unsafe_allow_html=True)
 
-        st.info("💡 智能体正在分析中，请点击「🔃 刷新状态」按钮查看最新进度（分析可能需要几分钟）")
+        # 分析运行中自动轮询刷新状态（优先使用 st.autorefresh / st_autorefresh，如不可用则保持手动刷新按钮）
+        try:
+            # Streamlit 不同版本下名称可能不同
+            if hasattr(st, "autorefresh"):
+                st.autorefresh(interval=2500, key="analysis_autorefresh")
+            else:
+                from streamlit import st_autorefresh  # type: ignore
+                st_autorefresh(interval=2500, key="analysis_autorefresh")
+            st.info("💡 智能体正在分析中，系统将自动刷新状态（约每 2.5 秒一次）")
+        except Exception:
+            st.info("💡 智能体正在分析中，请点击「🔃 刷新状态」按钮查看最新进度（分析可能需要几分钟）")
 
     # 检查是否需要自动刷新（分析完成后）
     if st.session_state.get('pending_rerun', False):
@@ -106,3 +116,9 @@ def show_real_time_analysis():
         st.session_state.active_page = 'real_time_analysis'
         from src.web.pages.analysis_results import show_analysis_results
         show_analysis_results()
+
+        # 分析完成后，自动在同一页加载“对话/辩论展示”
+        st.markdown("---")
+        st.markdown("### 🗣️ 分析完成的对话（辩论展示）")
+        from src.web.pages.debate_timeline import show_debate_timeline
+        show_debate_timeline(show_header=False)

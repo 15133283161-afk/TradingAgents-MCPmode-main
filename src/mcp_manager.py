@@ -2,6 +2,7 @@ import os
 import json
 import asyncio
 import time
+import re
 from typing import Dict, Any, List, Optional
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from langchain_openai import ChatOpenAI
@@ -38,11 +39,31 @@ class MCPManager:
         try:
             with open(config_file, 'r', encoding='utf-8') as f:
                 config = json.load(f)
+            config = self._resolve_env_placeholders(config)
             return config
         except FileNotFoundError:
             return {"servers": {}, "agent_permissions": {}}
         except json.JSONDecodeError as e:
             return {"servers": {}, "agent_permissions": {}}
+    
+    def _resolve_env_placeholders(self, value: Any) -> Any:
+        """
+        递归解析配置中的环境变量占位符。
+        支持字符串中的 "${ENV_VAR}" 形式，会替换为 os.environ 中的值（不存在则替换为空字符串）。
+        """
+        if isinstance(value, str):
+            pattern = re.compile(r"\$\{([^}]+)\}")
+
+            def _replace(match: re.Match) -> str:
+                var_name = match.group(1)
+                return os.getenv(var_name, "")
+
+            return pattern.sub(_replace, value)
+        if isinstance(value, dict):
+            return {k: self._resolve_env_placeholders(v) for k, v in value.items()}
+        if isinstance(value, list):
+            return [self._resolve_env_placeholders(v) for v in value]
+        return value
     
     def _init_llm(self) -> ChatOpenAI:
         """初始化大模型 - 从环境变量加载配置"""

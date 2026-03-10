@@ -11,21 +11,21 @@ import streamlit as st
 def get_agent_display_name(agent_name: str) -> str:
     """获取智能体显示名称"""
     name_mapping = {
-        'company_overview_analyst': '🏢 公司概述分析师',
-        'market_analyst': '📈 市场分析师',
-        'sentiment_analyst': '😊 情绪分析师',
-        'news_analyst': '📰 新闻分析师',
-        'fundamentals_analyst': '📋 基本面分析师',
-        'shareholder_analyst': '👥 股东分析师',
-        'product_analyst': '🏭 产品分析师',
-        'bull_researcher': '🐂 看涨研究员',
-        'bear_researcher': '🐻 看跌研究员',
-        'research_manager': '👔 研究经理',
-        'trader': '💼 交易员',
-        'aggressive_risk_analyst': '⚡ 激进风险分析师',
-        'safe_risk_analyst': '🛡️ 保守风险分析师',
-        'neutral_risk_analyst': '⚖️ 中性风险分析师',
-        'risk_manager': '🎯 风险经理'
+        'company_overview_analyst': '公司概述分析师',
+        'market_analyst': '市场分析师',
+        'sentiment_analyst': '情绪分析师',
+        'news_analyst': '新闻分析师',
+        'fundamentals_analyst': '基本面分析师',
+        'shareholder_analyst': '股东分析师',
+        'product_analyst': '产品分析师',
+        'bull_researcher': '看涨研究员',
+        'bear_researcher': '看跌研究员',
+        'research_manager': '研究经理',
+        'trader': '交易员',
+        'aggressive_risk_analyst': '激进风险分析师',
+        'safe_risk_analyst': '️保守风险分析师',
+        'neutral_risk_analyst': '中性风险分析师',
+        'risk_manager': '风险经理'
     }
     return name_mapping.get(agent_name, agent_name)
 
@@ -48,12 +48,9 @@ def get_agent_type(agent_name: str) -> str:
 def show_sidebar():
     """显示侧边栏"""
     with st.sidebar:
-        st.markdown('<h2 class="main-title">🔬</h2>', unsafe_allow_html=True)
         st.markdown('<h3 style="text-align:center;color:#ccd6f6;">AI实验室</h3>', unsafe_allow_html=True)
         st.markdown("---")
-
-        st.markdown("### ⚙️ 系统状态")
-
+        st.markdown("系统状态")
         if st.session_state.orchestrator:
             st.success("✅ 系统已连接")
             st.caption("所有智能体已就绪")

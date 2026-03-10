@@ -323,7 +323,6 @@ MIT License - 详见 [LICENSE](LICENSE) 文件
 
 ## 🙏 致谢
 
-- [Anthropic](https://www.anthropic.com/) - Claude AI 模型
 - [Streamlit](https://streamlit.io/) - Web 应用框架
 - [MCP](https://modelcontextprotocol.io/) - 模型上下文协议
 

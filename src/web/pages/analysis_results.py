@@ -19,11 +19,22 @@ def show_analysis_results():
 
     data = st.session_state.current_session_data
 
+    # 将后端状态值映射为前端中文展示
+    raw_status = data.get('status', 'N/A')
+    status_display_map = {
+        "completed": "已完成",
+        "running": "进行中",
+        "pending": "待开始",
+        "failed": "失败",
+        "idle": "空闲",
+    }
+    display_status = status_display_map.get(raw_status, raw_status)
+
     col1, col2, col3 = st.columns(3)
     with col1:
         st.metric("会话ID", data.get('session_id', 'N/A')[:8] + "...")
     with col2:
-        st.metric("状态", data.get('status', 'N/A'))
+        st.metric("状态", display_status)
     with col3:
         completed_agents = len([agent for agent in data.get('agents', []) if agent.get('status') == 'completed'])
         st.metric("完成智能体", f"{completed_agents}/{len(data.get('agents', []))}")

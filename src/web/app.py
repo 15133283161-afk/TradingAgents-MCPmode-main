@@ -38,14 +38,21 @@ def configure_page():
 
 def load_custom_css():
     """加载自定义CSS样式"""
-    css_file = os.path.join(os.path.dirname(__file__), "css", "app_styles.css")
+    css_dir = os.path.join(os.path.dirname(__file__), "css")
+    css_files = ["styles.css", "financial_styles.css"]
 
-    try:
-        with open(css_file, 'r', encoding='utf-8') as f:
-            css_content = f.read()
-        st.markdown(f"<style>{css_content}</style>", unsafe_allow_html=True)
-    except FileNotFoundError:
-        st.warning(f"⚠️ CSS文件未找到: {css_file}")
+    for name in css_files:
+        css_file = os.path.join(css_dir, name)
+        if not os.path.exists(css_file):
+            continue
+
+        try:
+            with open(css_file, 'r', encoding='utf-8') as f:
+                css_content = f.read()
+            st.markdown(f"<style>{css_content}</style>", unsafe_allow_html=True)
+        except Exception as e:
+            # 记录日志但不在前端打断用户体验
+            logging.warning(f"加载CSS文件失败: {css_file}, 错误: {e}")
 
 
 def main():

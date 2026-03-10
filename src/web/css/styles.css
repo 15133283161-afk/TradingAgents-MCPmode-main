@@ -1,54 +1,54 @@
 /* 人工智能实验室 - 智能体协同分析报告样式 */
 
-/* ========== CSS变量定义 ========== */
+/* ========== CSS变量定义（深色科技主题） ========== */
 :root {
-    /* 主色调 - 现代科技蓝 */
-    --primary-color: #2563eb;
-    --primary-dark: #1e40af;
-    --primary-light: #3b82f6;
-    --secondary-color: #64748b;
-    --accent-color: #0ea5e9;
+    /* 主色调 - 深色霓虹科技风 */
+    --primary-color: #38bdf8;          /* 按钮/高亮主色：亮蓝 */
+    --primary-dark: #0f172a;
+    --primary-light: #7dd3fc;
+    --secondary-color: #22d3ee;
+    --accent-color: #4f46e5;
     
     /* 状态颜色 */
-    --success-color: #10b981;
-    --warning-color: #f59e0b;
-    --danger-color: #ef4444;
-    --info-color: #3b82f6;
+    --success-color: #22c55e;
+    --warning-color: #facc15;
+    --danger-color: #f97373;
+    --info-color: #0ea5e9;
     
     /* 市场颜色 */
-    --bull-color: #10b981;
-    --bear-color: #ef4444;
-    --neutral-color: #64748b;
+    --bull-color: #22c55e;
+    --bear-color: #f97373;
+    --neutral-color: #94a3b8;
     
-    /* 背景色 */
-    --bg-primary: #f8fafc;
-    --bg-secondary: #f1f5f9;
-    --bg-card: #ffffff;
-    --bg-hover: #f8fafc;
+    /* 背景色 - 深色面板风格 */
+    --bg-primary: #020617;             /* 页面主背景：接近黑的深蓝 */
+    --bg-secondary: rgba(15, 23, 42, 0.9);
+    --bg-card: rgba(15, 23, 42, 0.98);  /* 深色卡片 */
+    --bg-hover: rgba(30, 64, 175, 0.25);
     
-    /* 文字颜色 */
-    --text-primary: #0f172a;
-    --text-secondary: #475569;
-    --text-muted: #94a3b8;
-    --text-light: #cbd5e1;
+    /* 文字颜色（在深色背景上） */
+    --text-primary: #e5f0ff;
+    --text-secondary: #cbd5f5;
+    --text-muted: #64748b;
+    --text-light: #94a3b8;
     
     /* 边框和阴影 */
-    --border-color: #e2e8f0;
+    --border-color: rgba(148, 163, 184, 0.4);
     --border-radius: 12px;
     --border-radius-sm: 8px;
     --border-radius-lg: 16px;
     
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.9);
+    --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.95);
+    --shadow-lg: 0 18px 48px rgba(15, 23, 42, 1);
+    --shadow-xl: 0 25px 80px rgba(15, 23, 42, 1);
     
-    /* 渐变 */
-    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --gradient-accent: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    --gradient-bull: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    --gradient-bear: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-    --gradient-card: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    /* 渐变 - 深色霓虹高光 */
+    --gradient-primary: linear-gradient(135deg, #22d3ee 0%, #38bdf8 40%, #4f46e5 100%);
+    --gradient-accent: linear-gradient(135deg, rgba(56, 189, 248, 0.18) 0%, rgba(45, 212, 191, 0.22) 40%, rgba(59, 130, 246, 0.35) 100%);
+    --gradient-bull: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    --gradient-bear: linear-gradient(135deg, #f97373 0%, #ef4444 100%);
+    --gradient-card: linear-gradient(145deg, rgba(15, 23, 42, 0.98) 0%, rgba(15, 23, 42, 0.85) 100%);
     
     /* 动画 */
     --transition-fast: 0.15s ease;
@@ -65,7 +65,8 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-    background: var(--bg-primary);
+    /* 顶部略亮、向下渐变为深蓝黑，突出内容卡片 */
+    background: radial-gradient(circle at top, #0f172a 0, #020617 55%, #000000 100%);
     color: var(--text-primary);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
@@ -74,14 +75,13 @@ body {
 
 /* ========== 顶部导航栏 ========== */
 .top-nav {
-    background: var(--bg-card);
+    background: rgba(15, 23, 42, 0.95);
     border-bottom: 1px solid var(--border-color);
     box-shadow: var(--shadow-sm);
     position: sticky;
     top: 0;
     z-index: 1000;
     backdrop-filter: blur(10px);
-    background: rgba(255, 255, 255, 0.95);
 }
 
 .nav-container {
@@ -502,13 +502,11 @@ body {
     animation-fill-mode: both;
 }
 
-.timeline-item.left {
-    padding-right: calc(50% + 2rem);
-    text-align: right;
-}
-
+.timeline-item.left,
 .timeline-item.right {
-    padding-left: calc(50% + 2rem);
+    /* 统一改为单列左对齐布局 */
+    padding-left: 3.5rem;
+    padding-right: 0;
     text-align: left;
 }
 
@@ -557,6 +555,13 @@ body {
     margin-bottom: 0.75rem;
     font-size: 0.9375rem;
     line-height: 1.7;
+}
+
+/* 专业辩论文本：全部左对齐，首行缩进两个字符左右 */
+.timeline-text-content {
+    text-align: left;
+    text-indent: 2em;
+    white-space: pre-wrap;
 }
 
 .timestamp {

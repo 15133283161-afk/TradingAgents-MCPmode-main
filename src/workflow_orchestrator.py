@@ -368,8 +368,8 @@ class WorkflowOrchestrator:
             count = state.investment_debate_state.get('count', 0)
         round_num = (count // 2) + 1
 
-        print(f"\n  📈 [多头研究员] 第 {round_num} 轮发言")
-        print(f"  ⏱️  时间: {datetime.now().strftime('%H:%M:%S')}")
+        print(f"\n  [多头研究员] 第 {round_num} 轮发言")
+        print(f" 时间: {datetime.now().strftime('%H:%M:%S')}")
 
         self._check_cancel()
         if not self._is_active("bull_researcher"):
@@ -379,9 +379,9 @@ class WorkflowOrchestrator:
             self._check_cancel()
             return state
 
-        print(f"  🔍 执行中...")
+        print(f" 执行中...")
         result = await self.agents["bull_researcher"].process(state, self.progress_manager)
-        print(f"  ✅ 完成")
+        print(f" 完成")
         self._check_cancel()
         return result
 
@@ -393,8 +393,8 @@ class WorkflowOrchestrator:
             count = state.investment_debate_state.get('count', 0)
         round_num = (count // 2) + 1
 
-        print(f"\n  📉 [空头研究员] 第 {round_num} 轮发言")
-        print(f"  ⏱️  时间: {datetime.now().strftime('%H:%M:%S')}")
+        print(f"\n [空头研究员] 第 {round_num} 轮发言")
+        print(f"  时间: {datetime.now().strftime('%H:%M:%S')}")
 
         self._check_cancel()
         if not self._is_active("bear_researcher"):
@@ -404,16 +404,16 @@ class WorkflowOrchestrator:
             self._check_cancel()
             return state
 
-        print(f"  🔍 执行中...")
+        print(f"  执行中...")
         result = await self.agents["bear_researcher"].process(state, self.progress_manager)
-        print(f"  ✅ 完成")
+        print(f"  完成")
         self._check_cancel()
         return result
 
     async def _research_manager_node(self, state: AgentState) -> AgentState:
         """研究经理节点"""
-        print(f"\n  👔 [研究经理] 汇总投资辩论")
-        print(f"  ⏱️  时间: {datetime.now().strftime('%H:%M:%S')}")
+        print(f"\n [研究经理] 汇总投资辩论")
+        print(f" 时间: {datetime.now().strftime('%H:%M:%S')}")
 
         self._check_cancel()
         if not self._is_active("research_manager"):
@@ -421,9 +421,9 @@ class WorkflowOrchestrator:
             self._check_cancel()
             return state
 
-        print(f"  🔍 执行中...")
+        print(f" 执行中...")
         result = await self.agents["research_manager"].process(state, self.progress_manager)
-        print(f"  ✅ 完成")
+        print(f" 完成")
         self._check_cancel()
         return result
 
@@ -432,8 +432,8 @@ class WorkflowOrchestrator:
         print("\n" + "─"*80)
         print("📊 阶段 3: 交易员决策")
         print("─"*80)
-        print(f"\n  💹 [交易员] 制定交易计划")
-        print(f"  ⏱️  时间: {datetime.now().strftime('%H:%M:%S')}")
+        print(f"\n [交易员] 制定交易计划")
+        print(f"  时间: {datetime.now().strftime('%H:%M:%S')}")
 
         self._check_cancel()
         if not self._is_active("trader"):
@@ -441,9 +441,9 @@ class WorkflowOrchestrator:
             self._check_cancel()
             return state
 
-        print(f"  🔍 执行中...")
+        print(f" 执行中...")
         result = await self.agents["trader"].process(state, self.progress_manager)
-        print(f"  ✅ 完成")
+        print(f" 完成")
         self._check_cancel()
         return result
 
@@ -468,9 +468,9 @@ class WorkflowOrchestrator:
             self._check_cancel()
             return state
 
-        print(f"  🔍 执行中...")
+        print(f"   执行中...")
         result = await self.agents["aggressive_risk_analyst"].process(state, self.progress_manager)
-        print(f"  ✅ 完成")
+        print(f"   完成")
         self._check_cancel()
         return result
 
@@ -482,8 +482,8 @@ class WorkflowOrchestrator:
             count = state.risk_debate_state.get('count', 0)
         round_num = (count // 3) + 1
 
-        print(f"\n  🛡️  [保守风险分析师] 第 {round_num} 轮发言")
-        print(f"  ⏱️  时间: {datetime.now().strftime('%H:%M:%S')}")
+        print(f"\n   [保守风险分析师] 第 {round_num} 轮发言")
+        print(f"  时间: {datetime.now().strftime('%H:%M:%S')}")
 
         self._check_cancel()
         if not self._is_active("safe_risk_analyst"):
@@ -492,9 +492,9 @@ class WorkflowOrchestrator:
             self._check_cancel()
             return state
 
-        print(f"  🔍 执行中...")
+        print(f"  执行中...")
         result = await self.agents["safe_risk_analyst"].process(state, self.progress_manager)
-        print(f"  ✅ 完成")
+        print(f" 完成")
         self._check_cancel()
         return result
 
@@ -506,8 +506,8 @@ class WorkflowOrchestrator:
             count = state.risk_debate_state.get('count', 0)
         round_num = (count // 3) + 1
 
-        print(f"\n  ⚖️  [中立风险分析师] 第 {round_num} 轮发言")
-        print(f"  ⏱️  时间: {datetime.now().strftime('%H:%M:%S')}")
+        print(f"\n  [中立风险分析师] 第 {round_num} 轮发言")
+        print(f"   时间: {datetime.now().strftime('%H:%M:%S')}")
 
         self._check_cancel()
         if not self._is_active("neutral_risk_analyst"):
@@ -516,16 +516,16 @@ class WorkflowOrchestrator:
             self._check_cancel()
             return state
 
-        print(f"  🔍 执行中...")
+        print(f"  执行中...")
         result = await self.agents["neutral_risk_analyst"].process(state, self.progress_manager)
-        print(f"  ✅ 完成")
+        print(f" 完成")
         self._check_cancel()
         return result
 
     async def _risk_manager_node(self, state: AgentState) -> AgentState:
         """风险管理器节点"""
-        print(f"\n  🎯 [风险管理器] 最终决策")
-        print(f"  ⏱️  时间: {datetime.now().strftime('%H:%M:%S')}")
+        print(f"\n   [风险管理器] 最终决策")
+        print(f"  时间: {datetime.now().strftime('%H:%M:%S')}")
 
         self._check_cancel()
         if not self._is_active("risk_manager"):
@@ -533,9 +533,9 @@ class WorkflowOrchestrator:
             self._check_cancel()
             return state
 
-        print(f"  🔍 执行中...")
+        print(f" 执行中...")
         result = await self.agents["risk_manager"].process(state, self.progress_manager)
-        print(f"  ✅ 完成")
+        print(f" 完成")
         self._check_cancel()
         return result
 
@@ -611,7 +611,6 @@ class WorkflowOrchestrator:
         if active_agents is None or len(active_agents) == 0:
             self.active_agents = set(self.agents.keys())
         else:
-            # 只保留已存在的合法agent名
             self.active_agents = set([a for a in active_agents if a in self.agents])
 
         print(f"🤖 启用的智能体 ({len(self.active_agents)}个): {', '.join(sorted([a.replace('_', ' ').title() for a in self.active_agents]))}")

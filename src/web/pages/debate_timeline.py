@@ -8,9 +8,10 @@ import streamlit as st
 from src.web.sidebar import get_agent_display_name, get_agent_type
 
 
-def show_debate_timeline():
+def show_debate_timeline(show_header: bool = True):
     """专业辩论时间轴展示"""
-    st.markdown('<h2 class="main-title">🗣️ 专业辩论展示</h2>', unsafe_allow_html=True)
+    if show_header:
+        st.markdown('<h2 class="main-title">🗣️ 专业辩论展示</h2>', unsafe_allow_html=True)
 
     if not st.session_state.current_session_data:
         st.info("请先在「历史会话」标签页选择一个会话来查看辩论过程")
@@ -87,21 +88,7 @@ def show_debate_timeline():
         """, unsafe_allow_html=True)
 
     st.markdown("---")
-    st.markdown("### 📜 辩论时间轴")
-
-    # 添加显示控制选项
-    col1, col2 = st.columns(2)
-    with col1:
-        show_full = st.checkbox("📖 显示完整内容", value=False, help="勾选后显示所有智能体的完整分析结果")
-    with col2:
-        max_chars = st.slider(
-            "📏 内容长度限制",
-            min_value=200,
-            max_value=5000,
-            value=1500,
-            step=100,
-            help="当不显示完整内容时，每个结果的最大字符数"
-        ) if not show_full else 5000
+    st.markdown("### 📜 辩论时间轴（固定展示全部内容）")
 
     st.markdown('<div class="timeline">', unsafe_allow_html=True)
 
@@ -111,12 +98,8 @@ def show_debate_timeline():
         display_name = get_agent_display_name(agent_name)
         agent_type = get_agent_type(agent_name)
         result = agent.get('result', '')
-
-        # 根据设置决定显示的内容长度
-        if show_full:
-            display_result = result
-        else:
-            display_result = result[:max_chars] + ('...' if len(result) > max_chars else '')
+        # 固定展示完整内容
+        display_result = result
 
         st.markdown(f"""
         <div class="timeline-item {position}">

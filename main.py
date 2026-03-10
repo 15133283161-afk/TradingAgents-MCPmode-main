@@ -10,7 +10,17 @@ import os
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from src.web import main
-
 if __name__ == "__main__":
-    main()
+    if os.environ.get("STREAMLIT_LAUNCHED") == "1":
+        from src.web import main
+        main()
+    else:
+        import subprocess
+        env = os.environ.copy()
+        env["STREAMLIT_LAUNCHED"] = "1"
+        script_path = os.path.abspath(__file__)
+        subprocess.run(
+            [sys.executable, "-m", "streamlit", "run", script_path],
+            env=env,
+            check=True
+        )

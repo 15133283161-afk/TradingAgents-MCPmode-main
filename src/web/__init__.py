@@ -7,7 +7,7 @@ TradingAgents-MCPmode Streamlit前端组件
 
 __version__ = "1.0.0"
 __author__ = "TradingAgents Team"
-__description__ = "TradingAgents-MCPmode Web前端"
+__description__ = "TradingAgents Web前端"
 
 try:
     from .config_manager import ConfigManager
