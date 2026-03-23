@@ -11,7 +11,7 @@ from src.web.export_manager import ExportManager
 
 def show_analysis_results():
     """分析结果展示"""
-    st.markdown('<h2 class="main-title">📊 分析结果详情</h2>', unsafe_allow_html=True)
+    st.markdown('<h2 class="main-title"> 分析结果详情</h2>', unsafe_allow_html=True)
 
     if not st.session_state.current_session_data:
         st.info("请先运行分析或加载历史会话查看结果")
@@ -54,14 +54,14 @@ def show_analysis_results():
 
         if completed_agents:
             st.markdown("---")
-            st.markdown("### 🤖 智能体分析详情")
+            st.markdown("### 智能体分析详情")
 
             agent_groups = {
-                "📊 分析师团队": ['company_overview_analyst', 'market_analyst', 'sentiment_analyst',
+                "分析师团队": ['company_overview_analyst', 'market_analyst', 'sentiment_analyst',
                                 'news_analyst', 'fundamentals_analyst', 'shareholder_analyst', 'product_analyst'],
-                "🔄 看涨看跌辩论": ['bull_researcher', 'bear_researcher'],
-                "👔 研究与交易": ['research_manager', 'trader'],
-                "⚖️ 风险管理": ['aggressive_risk_analyst', 'safe_risk_analyst', 'neutral_risk_analyst', 'risk_manager']
+                "看涨看跌辩论": ['bull_researcher', 'bear_researcher'],
+                "研究与交易": ['research_manager', 'trader'],
+                "风险管理": ['aggressive_risk_analyst', 'safe_risk_analyst', 'neutral_risk_analyst', 'risk_manager']
             }
 
             for group_name, agent_names in agent_groups.items():
@@ -76,11 +76,13 @@ def show_analysis_results():
                         result = agent.get('result', '')
 
                         with st.expander(f"**{display_name}**", expanded=False):
-                            st.markdown(f"""
-                            <span class="agent-tag {agent_type}">{agent_type.upper()}</span>
-                            """, unsafe_allow_html=True)
+                            if agent_type != 'analyst':
+                                st.markdown(f"""
+                                <span class="agent-tag {agent_type}">{agent_type.upper()}</span>
+                                """, unsafe_allow_html=True)
                             st.markdown(result)
                 else:
-                    st.info(f"{group_name.split(' ', 1)[1]}暂无完成的分析结果")
+                    group_display_name = group_name.split(' ', 1)[1] if ' ' in group_name else group_name
+                    st.info(f"{group_display_name}暂无完成的分析结果")
         else:
             st.info("该会话中暂无完成的智能体分析结果")

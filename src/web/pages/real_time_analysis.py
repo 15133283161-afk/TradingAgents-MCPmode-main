@@ -52,28 +52,28 @@ def show_real_time_analysis():
                 st.rerun()
 
     with col2:
-        if st.button("⏹️ 停止", use_container_width=True, disabled=not st.session_state.analysis_running):
+        if st.button(" 停止", use_container_width=True, disabled=not st.session_state.analysis_running):
             stop_analysis()
             st.rerun()
 
     with col3:
-        if st.button("🔄 清空", use_container_width=True):
+        if st.button(" 清空", use_container_width=True):
             st.session_state.current_query = ""
             st.rerun()
 
     with col4:
-        if st.button("🔃 刷新状态", use_container_width=True):
+        if st.button(" 刷新状态", use_container_width=True):
             st.rerun()
 
     if 'analysis_error' in st.session_state:
-        st.error(f"❌ 分析失败: {st.session_state.analysis_error}")
+        st.error(f" 分析失败: {st.session_state.analysis_error}")
         if st.button("清除错误", key="clear_error"):
             del st.session_state['analysis_error']
             st.rerun()
 
     if st.session_state.analysis_running:
         st.markdown("---")
-        st.markdown("### 📊 分析进度")
+        st.markdown("### 分析进度")
 
         enabled_agents = [agent for agent in st.session_state.active_agents.keys()
                          if st.session_state.active_agents[agent]]
@@ -119,6 +119,6 @@ def show_real_time_analysis():
 
         # 分析完成后，自动在同一页加载“对话/辩论展示”
         st.markdown("---")
-        st.markdown("### 🗣️ 分析完成的对话（辩论展示）")
+        st.markdown("###  分析完成的对话（辩论展示）")
         from src.web.pages.debate_timeline import show_debate_timeline
         show_debate_timeline(show_header=False)

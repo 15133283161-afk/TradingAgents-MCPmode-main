@@ -48,7 +48,7 @@ def get_agent_type(agent_name: str) -> str:
 def show_sidebar():
     """显示侧边栏"""
     with st.sidebar:
-        st.markdown('<h3 style="text-align:center;color:#ccd6f6;">AI实验室</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 style="text-align:center;color:#000000;">AI实验室</h3>', unsafe_allow_html=True)
         st.markdown("---")
         st.markdown("系统状态")
         if st.session_state.orchestrator:
@@ -63,14 +63,14 @@ def show_sidebar():
 
         st.markdown("---")
 
-        st.markdown("### 🤖 智能体控制")
+        st.markdown("### 智能体控制")
 
         agent_groups = {
-            '📊 分析师团队': ['company_overview_analyst', 'market_analyst', 'sentiment_analyst',
+            '分析师团队': ['company_overview_analyst', 'market_analyst', 'sentiment_analyst',
                            'news_analyst', 'fundamentals_analyst', 'shareholder_analyst', 'product_analyst'],
-            '🔬 研究员团队': ['bull_researcher', 'bear_researcher'],
-            '👔 管理层': ['research_manager', 'trader'],
-            '⚖️ 风险管理': ['aggressive_risk_analyst', 'safe_risk_analyst', 'neutral_risk_analyst', 'risk_manager'],
+            '研究员团队': ['bull_researcher', 'bear_researcher'],
+            '管理层': ['research_manager', 'trader'],
+            '风险管理': ['aggressive_risk_analyst', 'safe_risk_analyst', 'neutral_risk_analyst', 'risk_manager'],
         }
 
         enabled_count = sum(1 for v in st.session_state.active_agents.values() if v)

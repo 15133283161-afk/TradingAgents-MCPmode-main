@@ -1,422 +1,208 @@
-/* 人工智能实验室 - 专业金融科技界面样式 */
+/* AI 实验室 - 金融界面样式（浅色现代增强版） */
 
-/* ========== 全局设置（深色科技金融风） ========== */
 :root {
-    /* 主色调 - 深色霓虹科技风 */
-    --primary-color: #38bdf8;
-    --secondary-color: #22d3ee;
+    --primary-color: #0284c7;
+    --secondary-color: #0ea5e9;
     --accent-color: #4f46e5;
-    --success-color: #22c55e;
-    --warning-color: #facc15;
-    --danger-color: #f97373;
-    
-    /* 金融专业色彩 */
-    --gold-color: #fbbf24;
-    --silver-color: #94a3b8;
-    --market-green: #22c55e;
-    --market-red: #f97373;
-    
-    /* 背景色 - 深色科技面板 */
-    --bg-primary: #020617; /* 页面主背景：接近黑的深蓝 */
-    --bg-secondary: rgba(15, 23, 42, 0.9);
-    --bg-tertiary: rgba(30, 64, 175, 0.25);
-    --bg-card: rgba(15, 23, 42, 0.96);
-    
-    /* 文字颜色（在深色背景上） */
-    --text-primary: #e5f0ff;
-    --text-secondary: #cbd5f5;
+    --success-color: #16a34a;
+    --warning-color: #ca8a04;
+    --danger-color: #dc2626;
+
+    --gold-color: #b45309;
+    --silver-color: #64748b;
+    --market-green: #15803d;
+    --market-red: #b91c1c;
+
+    --bg-primary: #f8fafc;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: rgba(203, 213, 225, 0.24);
+    --bg-card: rgba(255, 255, 255, 0.9);
+
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
     --text-muted: #64748b;
-    
-    /* 边框和阴影（深色发光感） */
-    --border-color: rgba(148, 163, 184, 0.4);
-    --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.9);
-    --shadow-md: 0 18px 40px rgba(15, 23, 42, 0.95);
-    --shadow-lg: 0 25px 80px rgba(15, 23, 42, 1);
-    
-    /* 渐变 - 霓虹蓝紫 */
-    --gradient-primary: linear-gradient(135deg, #22d3ee 0%, #38bdf8 40%, #4f46e5 100%);
-    --gradient-accent: linear-gradient(135deg, rgba(56, 189, 248, 0.18) 0%, rgba(45, 212, 191, 0.22) 40%, rgba(59, 130, 246, 0.35) 100%);
-    --gradient-gold: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+
+    --border-color: rgba(203, 213, 225, 0.7);
+    --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+    --shadow-md: 0 8px 18px rgba(15, 23, 42, 0.08);
+    --shadow-lg: 0 16px 30px rgba(15, 23, 42, 0.12);
+
+    --gradient-primary: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%);
+    --gradient-accent: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+    --gradient-gold: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+
+    --ring-primary: 0 0 0 3px rgba(14, 165, 233, 0.14);
+    --transition-base: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ========== 主体样式 ========== */
 .stApp {
-    /* 深色科技感背景：顶部稍亮，向下过渡为深蓝黑 */
-    background: radial-gradient(circle at top, #0f172a 0, #020617 55%, #000000 100%);
+    background:
+        radial-gradient(circle at top right, #e0f2fe 0%, var(--bg-primary) 48%),
+        linear-gradient(rgba(15, 23, 42, 0.012) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 23, 42, 0.012) 1px, transparent 1px);
+    background-size: 100% 100%, 28px 28px, 28px 28px;
     color: var(--text-primary);
-    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: "Inter", -apple-system, sans-serif;
 }
 
-/* 主内容区域 - 限宽与收紧边距 */
-.main .block-container {
-    max-width: 1280px;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 0.75rem;
-    margin: 0 auto;
-}
-
-/* ========== 顶部抬头样式 ========== */
 .header-container {
     background: var(--bg-card);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    border-radius: 12px;
-    padding: 20px;
+    backdrop-filter: blur(12px);
+    border-radius: 14px;
+    padding: 24px;
     margin-bottom: 30px;
     border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-md);
     position: relative;
     overflow: hidden;
 }
 
 .header-container::before {
-    content: '';
+    content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: var(--gradient-gold);
+    inset: 0 0 auto 0;
+    height: 4px;
+    background: var(--gradient-primary);
 }
 
 .header-title {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--text-primary);
+    font-size: 1.9rem;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    background: linear-gradient(to bottom right, #0f172a, #334155);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     text-align: center;
-    margin: 0;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-}
-
-.header-subtitle {
-    font-size: 1.1rem;
-    color: var(--text-secondary);
-    text-align: center;
-    margin: 8px 0 0 0;
-    font-weight: 400;
-}
-
-.header-lab {
-    font-size: 0.9rem;
-    color: var(--gold-color);
-    text-align: center;
-    margin: 5px 0 0 0;
-    font-weight: 500;
-    letter-spacing: 1px;
-}
-
-/* ========== 卡片样式 ========== */
-.financial-card {
-    background: var(--bg-card);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    border-radius: 8px;
-    padding: 12px;
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-sm);
-    margin-bottom: 12px;
-    transition: all 0.3s ease;
-}
-
-.financial-card:hover {
-    border-color: var(--accent-color);
-    box-shadow: var(--shadow-lg);
-    transform: translateY(-2px);
-}
-
-.card-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-/* ========== 指标卡片 ========== */
-.metric-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 12px;
-    margin: 16px 0;
 }
 
 .metric-card {
-    background: var(--bg-secondary);
-    border-radius: 6px;
-    padding: 12px;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
     border: 1px solid var(--border-color);
-    text-align: center;
-    transition: all 0.3s ease;
-}
-
-.metric-card:hover {
-    background: var(--bg-tertiary);
-    border-color: var(--accent-color);
-}
-
-.metric-value {
-    font-size: 1.7rem;
-    font-weight: 700;
-    color: var(--accent-color);
-    margin-bottom: 6px;
-}
-
-.metric-label {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    font-weight: 500;
-}
-
-/* ========== Streamlit 内置 st.metric 样式修正 ========== */
-/* 在深色背景下强制为浅色文本，确保可见性 */
-[data-testid="stMetric"] [data-testid="stMetricLabel"],
-[data-testid="stMetric"] [data-testid="stMetricLabel"] p {
-    color: #e5f0ff !important;
-    visibility: visible !important;
-}
-
-[data-testid="stMetric"] [data-testid="stMetricValue"],
-[data-testid="stMetric"] [data-testid="stMetricValue"] div {
-    color: #e5f0ff !important;
-}
-
-/* ========== 按钮样式 ========== */
-.stButton > button {
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    font-weight: 500;
-}
-
-.btn-primary {
-    background: var(--gradient-accent);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 8px 16px;
-    font-weight: 500;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    border-radius: 14px;
+    padding: 20px;
+    transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
     box-shadow: var(--shadow-sm);
 }
 
-.btn-primary:hover {
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
+.metric-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(2, 132, 199, 0.4);
+    box-shadow: var(--shadow-lg);
 }
 
-.btn-success {
-    background: var(--gradient-primary);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
+[data-testid="stMetricValue"] {
+    font-family: "JetBrains Mono", "Roboto Mono", monospace !important;
+    font-weight: 700 !important;
+    color: var(--primary-color) !important;
 }
 
-.btn-export {
-    background: var(--gradient-gold);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 8px 16px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin: 4px;
+[data-testid="stMetricDelta"] {
+    font-weight: 600 !important;
 }
 
-.btn-export:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(214, 158, 46, 0.3);
+.stButton>button {
+    background: var(--gradient-primary) !important;
+    border: none !important;
+    border-radius: 10px !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    padding: 10px 24px !important;
+    letter-spacing: 0.2px;
+    box-shadow: 0 6px 14px rgba(14, 165, 233, 0.28) !important;
+    transition: transform var(--transition-base), box-shadow var(--transition-base), filter var(--transition-base) !important;
 }
 
-/* ========== 输入框样式 ========== */
-.stTextInput > div > div > input {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    color: var(--text-primary);
-    padding: 12px 16px;
-    font-size: 1rem;
+.stButton>button:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 12px 22px rgba(14, 165, 233, 0.34) !important;
+    filter: brightness(1.03);
 }
 
-.stTextInput > div > div > input:focus {
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+.stButton>button:focus-visible {
+    outline: none !important;
+    box-shadow: var(--ring-primary), 0 10px 18px rgba(14, 165, 233, 0.25) !important;
 }
 
-/* ========== 进度条样式 ========== */
-.stProgress > div > div {
-    background: var(--gradient-accent);
-    border-radius: 4px;
-}
-
-/* ========== 状态指示器 ========== */
-.status-indicator {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    font-weight: 500;
-}
-
-.status-running {
-    background: rgba(237, 137, 54, 0.2);
-    color: var(--warning-color);
-    border: 1px solid var(--warning-color);
-}
-
-.status-completed {
-    background: rgba(56, 161, 105, 0.2);
-    color: var(--success-color);
-    border: 1px solid var(--success-color);
-}
-
-.status-idle {
-    background: rgba(160, 174, 192, 0.2);
-    color: var(--silver-color);
-    border: 1px solid var(--silver-color);
-}
-
-/* ========== 标签页样式 ========== */
 .stTabs [data-baseweb="tab-list"] {
-    background: var(--bg-secondary);
-    border-radius: 8px;
-    padding: 4px;
-    gap: 4px;
+    background: #f1f5f9 !important;
+    padding: 4px !important;
+    border-radius: 12px !important;
+    gap: 8px !important;
+    border: 1px solid #e2e8f0 !important;
 }
 
 .stTabs [data-baseweb="tab"] {
-    background: transparent;
-    border-radius: 6px;
-    color: var(--text-secondary);
-    font-weight: 500;
-    padding: 8px 16px;
+    border-radius: 8px !important;
+    color: var(--text-secondary) !important;
+    font-weight: 500 !important;
+    transition: all var(--transition-base) !important;
+}
+
+.stTabs [data-baseweb="tab"]:hover {
+    color: var(--primary-color) !important;
+    background: rgba(255, 255, 255, 0.55) !important;
 }
 
 .stTabs [data-baseweb="tab"][aria-selected="true"] {
-    background: var(--accent-color);
-    color: white;
+    background: #ffffff !important;
+    box-shadow: var(--shadow-sm) !important;
+    color: var(--primary-color) !important;
 }
 
-/* ========== 历史会话样式 ========== */
-.session-card {
-    background: var(--bg-secondary);
-    border-radius: 8px;
-    padding: 16px;
-    border: 1px solid var(--border-color);
-    margin-bottom: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+.stTextInput input,
+.stNumberInput input,
+.stTextArea textarea,
+.stSelectbox [data-baseweb="select"]>div {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: var(--text-primary) !important;
+    border-radius: 10px !important;
+    transition: border-color var(--transition-base), box-shadow var(--transition-base) !important;
 }
 
-.session-card:hover {
-    border-color: var(--accent-color);
-    background: var(--bg-tertiary);
+.stTextInput input:focus,
+.stNumberInput input:focus,
+.stTextArea textarea:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: var(--ring-primary) !important;
 }
 
-.session-title {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 4px;
+div[data-testid="stExpander"] details summary p,
+div[data-testid="stExpander"] details summary span {
+    color: #000000 !important;
 }
 
-.session-meta {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-}
-
-/* ========== 工作流程图样式 ========== */
-.workflow-stage {
-    background: var(--bg-secondary);
-    border-radius: 8px;
-    padding: 16px;
-    margin: 12px 0;
-    border-left: 4px solid var(--accent-color);
-}
-
-.stage-title {
-    font-weight: 600;
-    color: var(--accent-color);
-    margin-bottom: 8px;
-}
-
-.agent-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.agent-badge {
-    background: var(--bg-tertiary);
-    color: var(--text-secondary);
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.8rem;
-}
-
-/* ========== 响应式设计 ========== */
-@media (max-width: 768px) {
-    .main .block-container {
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
-    
-    .metric-grid {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 12px;
-    }
-    
-    .header-title {
-        font-size: 1.5rem;
-    }
-    
-    .financial-card {
-        padding: 16px;
-    }
-}
-
-/* ========== 动画效果 ========== */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.animate-fade-in {
-    animation: fadeInUp 0.6s ease;
-}
-
-/* ========== 滚动条样式 ========== */
 ::-webkit-scrollbar {
     width: 8px;
+    height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--bg-secondary);
+    background: #f1f5f9;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--accent-color);
-    border-radius: 4px;
+    background: #cbd5e1;
+    border-radius: 10px;
+    border: 2px solid #f1f5f9;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--secondary-color);
+    background: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        padding: 18px;
+        border-radius: 12px;
+    }
+
+    .header-title {
+        font-size: 1.5rem;
+    }
+
+    .metric-card {
+        padding: 16px;
+    }
 }

@@ -119,7 +119,7 @@ def show_system_overview():
                 mcp_tools_label = f"已配置{MCP_KNOWN_TOOL_COUNT}个"
             else:
                 mcp_tools_label = "未连接"
-            st.metric("📊 MCP工具", mcp_tools_label)
+            st.metric("MCP工具", mcp_tools_label)
 
         with col2:
             # 服务器数：来自实际连接或 mcp_config.json 的 config_server_count
@@ -129,23 +129,23 @@ def show_system_overview():
                 mcp_server_label = f"{mcp_info.get('config_server_count', 0)} 个(已配置)"
             else:
                 mcp_server_label = "未检测"
-            st.metric("🔌 MCP服务器", mcp_server_label)
+            st.metric(" MCP服务器", mcp_server_label)
 
         with col3:
-            st.metric("🤖 智能体总数", f"{agents_count} 个")
+            st.metric(" 智能体总数", f"{agents_count} 个")
 
         with col4:
-            st.metric("✅ 已启用", f"{enabled_agents}/{agents_count}")
+            st.metric(" 已启用", f"{enabled_agents}/{agents_count}")
 
         st.markdown("---")
-        st.markdown("### 🤖 智能体状态")
+        st.markdown("###  智能体状态")
 
         agent_groups = {
-            '📊 分析师团队': ['company_overview_analyst', 'market_analyst', 'sentiment_analyst',
+            ' 分析师团队': ['company_overview_analyst', 'market_analyst', 'sentiment_analyst',
                            'news_analyst', 'fundamentals_analyst', 'shareholder_analyst', 'product_analyst'],
-            '🔬 研究员团队': ['bull_researcher', 'bear_researcher'],
-            '👔 管理层': ['research_manager', 'trader'],
-            '⚖️ 风险管理': ['aggressive_risk_analyst', 'safe_risk_analyst', 'neutral_risk_analyst', 'risk_manager'],
+            ' 研究员团队': ['bull_researcher', 'bear_researcher'],
+            ' 管理层': ['research_manager', 'trader'],
+            ' 风险管理': ['aggressive_risk_analyst', 'safe_risk_analyst', 'neutral_risk_analyst', 'risk_manager'],
         }
 
         for group_name, agent_names in agent_groups.items():
@@ -174,7 +174,7 @@ def show_system_overview():
 
         if total_tools > 0:
             st.markdown("---")
-            st.markdown("### 🔌 MCP 工具详情")
+            st.markdown("###  MCP 工具详情")
 
             servers_info = mcp_info.get('servers', {})
             for server_name, server_data in servers_info.items():

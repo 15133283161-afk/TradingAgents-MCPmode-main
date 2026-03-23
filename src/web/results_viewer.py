@@ -67,12 +67,12 @@ class ResultsViewer:
     
     def show_analysts_results(self):
         """显示分析师团队结果"""
-        st.title("📊 分析师团队报告")
+        st.title(" 分析师团队报告")
         
         # 获取最新会话数据
         latest_session = self._get_latest_session_data()
         if not latest_session:
-            st.warning("📝 暂无分析数据")
+            st.warning(" 暂无分析数据")
             return
         
         # 显示会话信息

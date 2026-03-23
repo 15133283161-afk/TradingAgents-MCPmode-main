@@ -66,20 +66,17 @@ def show_debate_timeline(show_header: bool = True):
 
         st.markdown(f"""
         <div class="info-card">
-            <h3 style="text-align:center;color:#ccd6f6;margin-bottom:1rem;">📊 投票统计（共{total}票）</h3>
+            <h3 style="text-align:center;color:#ccd6f6;margin-bottom:1rem;">投票统计（共{total}票）</h3>
             <div style="display:flex;align-items:center;gap:2rem;justify-content:center;">
                 <div style="text-align:center;">
-                    <div style="font-size:3rem;margin-bottom:0.5rem;">🐂</div>
                     <div style="font-size:2rem;font-weight:700;color:#10b981;">{bull_count}</div>
                     <div style="font-size:0.85rem;color:#8892b0;">看涨 ({bull_pct:.1f}%)</div>
                 </div>
                 <div style="text-align:center;">
-                    <div style="font-size:3rem;margin-bottom:0.5rem;">😐</div>
                     <div style="font-size:2rem;font-weight:700;color:#f59e0b;">{neutral_count}</div>
                     <div style="font-size:0.85rem;color:#8892b0;">中立 ({100-bull_pct-bear_pct:.1f}%)</div>
                 </div>
                 <div style="text-align:center;">
-                    <div style="font-size:3rem;margin-bottom:0.5rem;">🐻</div>
                     <div style="font-size:2rem;font-weight:700;color:#ef4444;">{bear_count}</div>
                     <div style="font-size:0.85rem;color:#8892b0;">看跌 ({bear_pct:.1f}%)</div>
                 </div>
@@ -88,7 +85,7 @@ def show_debate_timeline(show_header: bool = True):
         """, unsafe_allow_html=True)
 
     st.markdown("---")
-    st.markdown("### 📜 辩论时间轴（固定展示全部内容）")
+    st.markdown("### 📜 辩论时间轴")
 
     st.markdown('<div class="timeline">', unsafe_allow_html=True)
 
@@ -105,12 +102,12 @@ def show_debate_timeline(show_header: bool = True):
         <div class="timeline-item {position}">
             <div class="timeline-content">
                 <span class="agent-tag {agent_type}">{agent_type.upper()}</span>
-                <h4 style="color:#ccd6f6;margin:0.5rem 0;">{display_name}</h4>
+                <h4 style="color:#000000;margin:0.5rem 0;">{display_name}</h4>
                 <div class="timeline-text-content">
                     {display_result}
                 </div>
                 <div style="color:#64ffda;font-size:0.75rem;margin-top:0.5rem;">
-                    📊 内容长度: {len(result)} 字符
+                    内容长度: {len(result)} 字符
                 </div>
             </div>
         </div>
@@ -122,6 +119,6 @@ def show_debate_timeline(show_header: bool = True):
     st.markdown("---")
     st.markdown(f"""
     <div style="text-align:center;color:#8892b0;font-size:0.9rem;">
-        📈 共展示 <strong style="color:#64ffda;">{len(completed_agents)}</strong> 个智能体的辩论结果
+         共展示 <strong style="color:#64ffda;">{len(completed_agents)}</strong> 个智能体的辩论结果
     </div>
     """, unsafe_allow_html=True)
