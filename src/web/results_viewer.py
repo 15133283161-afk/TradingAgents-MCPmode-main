@@ -288,7 +288,7 @@ class ResultsViewer:
         with col2:
             status = session_data.get('status', 'unknown')
             status_emoji = "✅" if status == 'completed' else "🔄" if status == 'running' else "❓"
-            st.metric("📊 状态", f"{status_emoji} {status}")
+            st.metric("状态", f"{status_emoji} {status}")
         
         with col3:
             created_at = session_data.get('created_at', '')
@@ -305,7 +305,7 @@ class ResultsViewer:
         with col4:
             agents = session_data.get('agents', [])
             completed_count = len([a for a in agents if a.get('status') == 'completed'])
-            st.metric("🤖 已完成智能体", f"{completed_count}/{len(agents)}")
+            st.metric(" 已完成智能体", f"{completed_count}/{len(agents)}")
         
         # 用户查询
         user_query = session_data.get('user_query', '')
@@ -320,7 +320,7 @@ class ResultsViewer:
         agent_data = next((a for a in agents if a.get('agent_name') == agent_name), None)
         
         if not agent_data:
-            st.warning(f"📝 暂无 {self.agent_mapping.get(agent_name, {}).get('name', agent_name)} 的数据")
+            st.warning(f"暂无 {self.agent_mapping.get(agent_name, {}).get('name', agent_name)} 的数据")
             return
         
         # 智能体状态
@@ -330,7 +330,7 @@ class ResultsViewer:
         col1, col2, col3 = st.columns(3)
         
         with col1:
-            st.metric("📊 执行状态", f"{status_emoji} {status}")
+            st.metric("执行状态", f"{status_emoji} {status}")
         
         with col2:
             start_time = agent_data.get('start_time', '')
@@ -342,7 +342,7 @@ class ResultsViewer:
                     time_str = start_time[:8]
             else:
                 time_str = "未知"
-            st.metric("⏰ 开始时间", time_str)
+            st.metric(" 开始时间", time_str)
         
         with col3:
             end_time = agent_data.get('end_time', '')
@@ -354,7 +354,7 @@ class ResultsViewer:
                     time_str = end_time[:8]
             else:
                 time_str = "运行中..."
-            st.metric("🏁 完成时间", time_str)
+            st.metric(" 完成时间", time_str)
         
         # 显示结果
         result = agent_data.get('result', '')
@@ -369,14 +369,14 @@ class ResultsViewer:
                 # 如果Markdown转换失败，直接显示原文
                 st.markdown(result)
         else:
-            st.info("📝 该智能体暂未生成结果")
+            st.info(" 该智能体暂未生成结果")
         
         # 显示MCP工具调用
         mcp_calls = session_data.get('mcp_calls', [])
         agent_mcp_calls = [call for call in mcp_calls if call.get('agent_name') == agent_name]
         
         if agent_mcp_calls:
-            with st.expander(f"🔧 MCP工具调用记录 ({len(agent_mcp_calls)}次)"):
+            with st.expander(f" MCP工具调用记录 ({len(agent_mcp_calls)}次)"):
                 for i, call in enumerate(agent_mcp_calls, 1):
                     st.markdown(f"**调用 {i}**:")
                     st.text(f"工具: {call.get('tool_name', 'N/A')}")
@@ -400,13 +400,13 @@ class ResultsViewer:
             title = "⚠️ 风险评估辩论历史"
         
         if not debate_data:
-            st.info(f"📝 暂无{debate_type}辩论记录")
+            st.info(f"暂无{debate_type}辩论记录")
             return
         
         st.markdown(f"### {title}")
         
         for i, round_data in enumerate(debate_data, 1):
-            st.markdown(f"#### 🔄 第 {i} 轮辩论")
+            st.markdown(f"#### 第 {i} 轮辩论")
             
             # 显示每轮辩论的参与者和观点
             for agent_name, content in round_data.items():
@@ -425,14 +425,14 @@ class ResultsViewer:
         col1, col2, col3 = st.columns(3)
         
         with col1:
-            st.metric("🤖 智能体执行数", len(agents))
+            st.metric("智能体执行数", len(agents))
             completed_count = len([a for a in agents if a.get('status') == 'completed'])
-            st.metric("✅ 已完成", completed_count)
+            st.metric(" 已完成", completed_count)
         
         with col2:
-            st.metric("🔧 MCP工具调用", len(mcp_calls))
+            st.metric("MCP工具调用", len(mcp_calls))
             unique_tools = len(set(call.get('tool_name', '') for call in mcp_calls))
-            st.metric("🛠️ 使用工具种类", unique_tools)
+            st.metric("使用工具种类", unique_tools)
         
         with col3:
             # 计算总执行时间
@@ -444,23 +444,23 @@ class ResultsViewer:
                     start_dt = min(datetime.fromisoformat(t.replace('Z', '+00:00')) for t in start_times)
                     end_dt = max(datetime.fromisoformat(t.replace('Z', '+00:00')) for t in end_times)
                     duration = (end_dt - start_dt).total_seconds()
-                    st.metric("⏱️ 总执行时间", f"{duration:.1f}秒")
+                    st.metric("总执行时间", f"{duration:.1f}秒")
                 except:
-                    st.metric("⏱️ 总执行时间", "计算中...")
+                    st.metric("总执行时间", "计算中...")
             else:
-                st.metric("⏱️ 总执行时间", "未知")
+                st.metric("总执行时间", "未知")
         
         # 错误和警告
         errors = session_data.get('errors', [])
         warnings = session_data.get('warnings', [])
         
         if errors:
-            st.error(f"❌ 发现 {len(errors)} 个错误:")
+            st.error(f" 发现 {len(errors)} 个错误:")
             for error in errors:
                 st.text(f"• {error}")
         
         if warnings:
-            st.warning(f"⚠️ 发现 {len(warnings)} 个警告:")
+            st.warning(f"发现 {len(warnings)} 个警告:")
             for warning in warnings:
                 st.text(f"• {warning}")
     
@@ -469,7 +469,7 @@ class ResultsViewer:
         agents = session_data.get('agents', [])
         
         if not agents:
-            st.info("📝 暂无智能体执行记录")
+            st.info(" 暂无智能体执行记录")
             return
         
         # 按阶段分组显示
@@ -489,7 +489,7 @@ class ResultsViewer:
             stage_agents = [a for a in agents if a.get('agent_name') in agent_names]
             
             if not stage_agents:
-                st.info(f"📝 该阶段暂无执行记录")
+                st.info(f"该阶段暂无执行记录")
                 continue
             
             for agent_data in stage_agents:
@@ -511,7 +511,7 @@ class ResultsViewer:
                                 st.markdown("---")
                                 st.markdown(result)
                     else:
-                        st.info("📝 暂未生成结果")
+                        st.info(" 暂未生成结果")
     
     def _show_export_options(self, session_file: Path):
         """显示导出选项"""
@@ -520,15 +520,15 @@ class ResultsViewer:
         col1, col2, col3 = st.columns(3)
         
         with col1:
-            if st.button("📝 导出Markdown", use_container_width=True):
+            if st.button(" 导出Markdown", use_container_width=True):
                 self._export_to_markdown(session_file)
         
         with col2:
-            if st.button("📄 导出PDF", use_container_width=True):
+            if st.button(" 导出PDF", use_container_width=True):
                 self._export_to_pdf(session_file)
         
         with col3:
-            if st.button("📋 导出DOCX", use_container_width=True):
+            if st.button(" 导出DOCX", use_container_width=True):
                 self._export_to_docx(session_file)
     
     def _export_to_markdown(self, session_file: Path):
@@ -540,7 +540,7 @@ class ResultsViewer:
             result = converter.convert_json_to_markdown(str(session_file))
             
             if result:
-                st.success(f"✅ Markdown报告已生成: {result}")
+                st.success(f" Markdown报告已生成: {result}")
                 
                 # 提供下载链接
                 if Path(result).exists():
@@ -548,15 +548,15 @@ class ResultsViewer:
                         content = f.read()
                     
                     st.download_button(
-                        label="📥 下载Markdown文件",
+                        label=" 下载Markdown文件",
                         data=content,
                         file_name=Path(result).name,
                         mime="text/markdown"
                     )
             else:
-                st.error("❌ Markdown导出失败")
+                st.error(" Markdown导出失败")
         except Exception as e:
-            st.error(f"❌ 导出失败: {e}")
+            st.error(f" 导出失败: {e}")
     
     def _export_to_pdf(self, session_file: Path):
         """导出为PDF"""
@@ -574,13 +574,13 @@ class ResultsViewer:
                 pdf_file = pdf_converter.convert_to_pdf(md_file)
                 
                 if pdf_file:
-                    st.success(f"✅ PDF报告已生成: {pdf_file}")
+                    st.success(f" PDF报告已生成: {pdf_file}")
                 else:
-                    st.error("❌ PDF转换失败")
+                    st.error(" PDF转换失败")
             else:
-                st.error("❌ 无法生成Markdown文件，PDF转换失败")
+                st.error(" 无法生成Markdown文件，PDF转换失败")
         except Exception as e:
-            st.error(f"❌ PDF导出失败: {e}")
+            st.error(f" PDF导出失败: {e}")
     
     def _export_to_docx(self, session_file: Path):
         """导出为DOCX"""
@@ -598,10 +598,10 @@ class ResultsViewer:
                 docx_file = docx_converter.convert_to_docx(md_file)
                 
                 if docx_file:
-                    st.success(f"✅ DOCX报告已生成: {docx_file}")
+                    st.success(f" DOCX报告已生成: {docx_file}")
                 else:
-                    st.error("❌ DOCX转换失败")
+                    st.error(" DOCX转换失败")
             else:
-                st.error("❌ 无法生成Markdown文件，DOCX转换失败")
+                st.error(" 无法生成Markdown文件，DOCX转换失败")
         except Exception as e:
-            st.error(f"❌ DOCX导出失败: {e}")
+            st.error(f"DOCX导出失败: {e}")

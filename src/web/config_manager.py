@@ -39,7 +39,7 @@ class ConfigManager:
     
     def _show_llm_config(self):
         """显示大模型配置"""
-        st.markdown("### 🤖 大模型API配置")
+        st.markdown("###  大模型API配置")
         
         # 加载当前配置
         current_config = self._load_env_config()

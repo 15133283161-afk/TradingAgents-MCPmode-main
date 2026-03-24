@@ -160,11 +160,10 @@ class BaseAgent(ABC):
             # 打印agent开始信息
             agent_display = self.agent_name.replace('_', ' ').title()
             print(f"\n    ┌─ {'='*76}")
-            print(f"    │ 🤖 {agent_display}")
-            print(f"    │ {'='*78}")
+            print(f"    │  {agent_display}")
             # 日志中完整输出任务内容，不再截断
-            print(f"    │ 📋 任务: {user_message}")
-            print(f"    │ 🛠️  MCP工具: {'✅ 已启用' if self.mcp_enabled else '❌ 未启用'}")
+            print(f"    │  任务: {user_message}")
+            print(f"    │  MCP工具: {' 已启用' if self.mcp_enabled else ' 未启用'}")
 
             # 确保智能体实例已创建
             self.ensure_agent_created()
@@ -239,7 +238,7 @@ class BaseAgent(ABC):
             # 如果启用了MCP工具，使用智能体（参考test.py的简洁方式）
             if self.mcp_enabled and current_tools and self.mcp_manager.client:
                 try:
-                    print(f"    │ 📦 可用工具: {len(current_tools)}个")
+                    print(f"    │  可用工具: {len(current_tools)}个")
                     if current_tools:
                         for tool in current_tools[:3]:  # 只显示前3个工具
                             print(f"    │    • {tool.name}")
@@ -252,7 +251,7 @@ class BaseAgent(ABC):
                         {"role": "user", "content": user_message}
                     ]
 
-                    print(f"    │ 🔄 调用LLM...")
+                    print(f"    │ 调用LLM...")
                     response = await self.agent.ainvoke({
                         "messages": messages
                     })
@@ -283,7 +282,7 @@ class BaseAgent(ABC):
                         elif hasattr(msg, 'tool_call_id'):
                             tool_result = getattr(msg, 'content', 'No result')
                             # 日志中完整输出工具返回结果
-                            print(f"    │ 📊 工具返回: {tool_result}")
+                            print(f"    │ 工具返回: {tool_result}")
 
                             # 找到对应的工具调用并记录完整信息
                             for tool_call in tool_calls_found:
@@ -296,7 +295,7 @@ class BaseAgent(ABC):
                                             tool_args=tool_call['tool_args'],
                                             tool_result=tool_result
                                         )
-                                    print(f"    │    ✅ {tool_call['tool_name']} 完成")
+                                    print(f"    │    {tool_call['tool_name']} 完成")
                                 
                                 # 记录到state
                                 if isinstance(state, dict):
@@ -335,7 +334,7 @@ class BaseAgent(ABC):
                     result = response.content
             else:
                 # 如果没有启用MCP工具，直接调用LLM
-                print(f"    │ 🔄 调用LLM...")
+                print(f"    │ 调用LLM...")
                 full_prompt = f"""{system_level_prompt}\n\n用户请求: {user_message}"""
                 response = await self.llm.ainvoke([HumanMessage(content=full_prompt)])
                 result = response.content
@@ -401,8 +400,8 @@ class BaseAgent(ABC):
 
             # 打印完成信息（不再截断预览内容）
             full_result_one_line = str(result).replace('\n', ' ')
-            print(f"    │ ✅ 执行完成")
-            print(f"    │ 📝 结果预览: {full_result_one_line}")
+            print(f"    │ 执行完成")
+            print(f"    │ 结果预览: {full_result_one_line}")
             print(f"    └─ {'='*78}")
 
             return result
@@ -411,7 +410,7 @@ class BaseAgent(ABC):
             error_msg = f"LLM调用失败: {str(e)}"
 
             # 打印错误信息
-            print(f"    │ ❌ 错误: {error_msg}")
+            print(f"    │  错误: {error_msg}")
             print(f"    └─ {'='*78}")
 
             # 记录执行失败

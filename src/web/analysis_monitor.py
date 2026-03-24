@@ -278,7 +278,7 @@ class AnalysisMonitor:
         agents = progress_data.get('agents', [])
         
         # 按阶段分组显示
-        st.markdown("#### 📋 各阶段执行状态")
+        st.markdown("#### 各阶段执行状态")
         
         # 阶段0: 公司概述
         company_agent = next((a for a in agents if a.get('agent_name') == 'company_overview_analyst'), None)

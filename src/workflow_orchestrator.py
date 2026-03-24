@@ -264,7 +264,7 @@ class WorkflowOrchestrator:
         from asyncio import gather, create_task, wait, FIRST_COMPLETED
 
         print("\n" + "─"*80)
-        print("📊 阶段 1: 并行分析师团队")
+        print(" 阶段 1: 并行分析师团队")
         print("─"*80)
 
         analyst_names = [
@@ -287,7 +287,7 @@ class WorkflowOrchestrator:
             "product_analyst": "Product Analyst"
         }
 
-        print(f"  🔄 并行执行 {len(analyst_names)} 个分析师:")
+        print(f"   并行执行 {len(analyst_names)} 个分析师:")
         for name in analyst_names:
             print(f"     • {analyst_display_names.get(name, name)}")
 
@@ -300,11 +300,11 @@ class WorkflowOrchestrator:
 
         if not tasks:
             # 全部禁用，直接返回
-            print(f"  ⚠️  所有分析师已禁用")
+            print(f"所有分析师已禁用")
             return state
 
-        print(f"  ⏱️  开始时间: {datetime.now().strftime('%H:%M:%S')}")
-        print(f"  🔄 执行中...")
+        print(f"  开始时间: {datetime.now().strftime('%H:%M:%S')}")
+        print(f"  执行中...")
 
         # 协作式取消：轮询检查取消标记，必要时取消剩余任务
         pending = set(tasks)
@@ -316,7 +316,7 @@ class WorkflowOrchestrator:
                 done_results.append(await d)
         results = done_results
 
-        print(f"  ✅ 所有分析师完成")
+        print(f" 所有分析师完成")
 
         # 将各自字段安全合并回主state（兼容字典或对象）
         def setter(k: str, v: Any):
@@ -430,7 +430,7 @@ class WorkflowOrchestrator:
     async def _trader_node(self, state: AgentState) -> AgentState:
         """交易员节点"""
         print("\n" + "─"*80)
-        print("📊 阶段 3: 交易员决策")
+        print(" 阶段 3: 交易员决策")
         print("─"*80)
         print(f"\n [交易员] 制定交易计划")
         print(f"  时间: {datetime.now().strftime('%H:%M:%S')}")
@@ -456,7 +456,7 @@ class WorkflowOrchestrator:
         round_num = (count // 3) + 1
 
         print("\n" + "─"*80)
-        print("📊 阶段 4: 风险管理辩论")
+        print(" 阶段 4: 风险管理辩论")
         print("─"*80)
         print(f"\n  ⚡ [激进风险分析师] 第 {round_num} 轮发言")
         print(f"  ⏱️  时间: {datetime.now().strftime('%H:%M:%S')}")
@@ -600,10 +600,10 @@ class WorkflowOrchestrator:
     async def run_analysis(self, user_query: str, cancel_checker=None, active_agents: Optional[List[str]] = None) -> AgentState:
         """运行完整的交易分析流程"""
         print("\n" + "="*80)
-        print("🚀 开始交易分析流程".center(80))
+        print(" 开始交易分析流程".center(80))
         print("="*80)
-        print(f"📝 用户查询: {user_query}")
-        print(f"⏰ 开始时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        print(f"用户查询: {user_query}")
+        print(f" 开始时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
         # 存储取消检查器
         self.cancel_checker = cancel_checker
@@ -613,7 +613,7 @@ class WorkflowOrchestrator:
         else:
             self.active_agents = set([a for a in active_agents if a in self.agents])
 
-        print(f"🤖 启用的智能体 ({len(self.active_agents)}个): {', '.join(sorted([a.replace('_', ' ').title() for a in self.active_agents]))}")
+        print(f" 启用的智能体 ({len(self.active_agents)}个): {', '.join(sorted([a.replace('_', ' ').title() for a in self.active_agents]))}")
 
         # 初始化进度跟踪器
         self.progress_manager = ProgressTracker()
@@ -636,7 +636,7 @@ class WorkflowOrchestrator:
         
         try:
             print("\n" + "─"*80)
-            print("📊 阶段 0: 公司概述分析")
+            print(" 阶段 0: 公司概述分析")
             print("─"*80)
 
             # 检查取消状态
