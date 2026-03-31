@@ -71,7 +71,7 @@ class MCPManager:
         api_key = os.getenv("LLM_API_KEY", "your_api_key_here")
         base_url = os.getenv("LLM_BASE_URL", "https://api.openai.com/v1")
         model_name = os.getenv("LLM_MODEL", "gpt-4")
-        temperature = float(os.getenv("LLM_TEMPERATURE", "0.1"))
+        temperature = float(os.getenv("LLM_TEMPERATURE", "0.3"))
         max_tokens = int(os.getenv("LLM_MAX_TOKENS", "4000"))
 
         llm = ChatOpenAI(
