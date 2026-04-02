@@ -64,7 +64,6 @@ class StateManager:
                 "start_time": datetime.now().isoformat(),
                 "current_action": action
             })
-            
             self.workflow_state["current_agent"] = agent_name
             self._update_overall_progress()
     
@@ -76,9 +75,7 @@ class StateManager:
                 "end_time": datetime.now().isoformat(),
                 "progress": 1.0 if success else 0.0
             })
-            
             self._update_overall_progress()
-            
             # 检查是否所有智能体都完成了
             if self._all_agents_completed():
                 self.workflow_state["status"] = "completed"
@@ -132,14 +129,12 @@ class StateManager:
         total_agents = len(self.agent_order)
         completed_count = sum(1 for agent in self.agent_order 
                             if self.agent_states[agent]["status"] == "completed")
-        
         # 计算当前运行智能体的部分进度
         running_progress = 0.0
         for agent in self.agent_order:
             if self.agent_states[agent]["status"] == "running":
                 running_progress = self.agent_states[agent]["progress"] / total_agents
                 break
-        
         self.workflow_state["overall_progress"] = (completed_count / total_agents) + running_progress
     
     def _all_agents_completed(self) -> bool:
@@ -152,10 +147,8 @@ class StateManager:
         completed_count = sum(1 for agent in self.agent_order 
                             if self.agent_states[agent]["status"] == "completed")
         total_count = len(self.agent_order)
-        
         # 获取当前运行的智能体
         current_agent = self.workflow_state.get("current_agent")
-        
         # 计算预估剩余时间（基于平均每个智能体2分钟）
         remaining_agents = total_count - completed_count
         if current_agent and self.agent_states[current_agent]["status"] == "running":
@@ -170,7 +163,6 @@ class StateManager:
             hours = int(estimated_minutes // 60)
             minutes = int(estimated_minutes % 60)
             estimated_time = f"约{hours}小时{minutes}分钟"
-        
         # 获取当前任务描述
         agent_names = {
             "market_analyst": "市场分析师",
@@ -186,14 +178,12 @@ class StateManager:
             "neutral_risk_analyst": "中性风险分析师",
             "risk_manager": "风险经理"
         }
-        
         if current_agent and self.agent_states[current_agent]["status"] == "running":
             current_task = agent_names.get(current_agent, current_agent)
         elif completed_count == total_count:
             current_task = "分析完成"
         else:
             current_task = "准备中"
-        
         return {
             "progress": self.workflow_state["overall_progress"],
             "current_task": current_task,
@@ -228,7 +218,6 @@ class StateManager:
                 "results_count": 0,
                 "mcp_calls_count": 0
             }
-        
         self.workflow_state = {
             "status": "idle",
             "current_agent": None,
@@ -237,7 +226,6 @@ class StateManager:
             "start_time": None,
             "estimated_completion": None
         }
-        
         for debate_type in self.debate_states:
             self.debate_states[debate_type]["active"] = False
             self.debate_states[debate_type]["round"] = 0
