@@ -59,7 +59,6 @@ class AnalysisEngine:
         try:
             if analysis_state.cancelled:
                 return None
-
             load_dotenv()
 
             if not enabled_agents:

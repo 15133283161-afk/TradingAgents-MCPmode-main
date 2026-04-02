@@ -13,17 +13,13 @@ from src.workflow_orchestrator import WorkflowOrchestrator
 def show_real_time_analysis():
     """实时分析页面"""
     st.markdown('<h2 class="main-title">🔍 智能实时分析</h2>', unsafe_allow_html=True)
-
     # 检查后台分析状态（在主线程中执行）
     AnalysisEngine.check_and_update_analysis_state()
-
     if not st.session_state.orchestrator:
         AnalysisEngine.auto_connect_system(WorkflowOrchestrator)
-
     if not st.session_state.orchestrator:
         st.info("👆 请先在侧边栏连接系统")
         return
-
     st.markdown('<div class="info-card">', unsafe_allow_html=True)
     user_query = st.text_area(
         "💬 请输入要分析的股票或公司",
@@ -33,9 +29,7 @@ def show_real_time_analysis():
         label_visibility="collapsed"
     )
     st.markdown('</div>', unsafe_allow_html=True)
-
     col1, col2, col3, col4 = st.columns([2, 1, 1, 1])
-
     with col1:
         if st.button("🚀 开始分析", type="primary", use_container_width=True, disabled=st.session_state.analysis_running):
             if not user_query.strip():
@@ -43,28 +37,23 @@ def show_real_time_analysis():
             else:
                 enabled_agents = [agent for agent in st.session_state.active_agents.keys()
                                 if st.session_state.active_agents[agent]]
-
                 start_analysis(
                     query=user_query.strip(),
                     orchestrator=st.session_state.orchestrator,
                     active_agents=enabled_agents
                 )
                 st.rerun()
-
     with col2:
         if st.button(" 停止", use_container_width=True, disabled=not st.session_state.analysis_running):
             stop_analysis()
             st.rerun()
-
     with col3:
         if st.button(" 清空", use_container_width=True):
             st.session_state.current_query = ""
             st.rerun()
-
     with col4:
         if st.button(" 刷新状态", use_container_width=True):
             st.rerun()
-
     if 'analysis_error' in st.session_state:
         st.error(f" 分析失败: {st.session_state.analysis_error}")
         if st.button("清除错误", key="clear_error"):
@@ -105,7 +94,6 @@ def show_real_time_analysis():
             st.info("💡 智能体正在分析中，系统将自动刷新状态（约每 2.5 秒一次）")
         except Exception:
             st.info("💡 智能体正在分析中，请点击「🔃 刷新状态」按钮查看最新进度（分析可能需要几分钟）")
-
     # 检查是否需要自动刷新（分析完成后）
     if st.session_state.get('pending_rerun', False):
         st.session_state.pending_rerun = False
@@ -116,7 +104,6 @@ def show_real_time_analysis():
         st.session_state.active_page = 'real_time_analysis'
         from src.web.pages.analysis_results import show_analysis_results
         show_analysis_results()
-
         # 分析完成后，自动在同一页加载“对话/辩论展示”
         st.markdown("---")
         st.markdown("###  分析完成的对话（辩论展示）")

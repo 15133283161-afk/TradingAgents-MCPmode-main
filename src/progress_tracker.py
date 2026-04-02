@@ -14,12 +14,10 @@ class ProgressTracker:
         self.session_id = session_id or f"{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}_{uuid.uuid4().hex[:8]}"
         self.current_stage = ""
         self.current_agent = ""
-        
         # 初始化dump文件夹和JSON文件
         self.dump_dir = os.path.join(os.path.dirname(__file__), "dump")
         os.makedirs(self.dump_dir, exist_ok=True)
         self.json_file = os.path.join(self.dump_dir, f"session_{self.session_id}.json")
-        
         # 初始化JSON数据结构
         self.session_data = {
             "session_id": self.session_id,
@@ -36,7 +34,6 @@ class ProgressTracker:
             "warnings": [],
             "final_results": {}
         }
-        
         # 首次写入时确保原子创建，若意外存在则重新生成ID
         self._init_json_file()
     
@@ -78,7 +75,6 @@ class ProgressTracker:
                 time.sleep(0.25 * (i + 1))
             except Exception as e:
                 break
-
         if not replaced:
             # 回退：直接覆盖写入目标（可能不是全原子，但尽量保证成功）
             try:

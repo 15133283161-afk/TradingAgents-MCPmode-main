@@ -10,13 +10,11 @@ from pathlib import Path
 
 
 def load_financial_css():
-    """加载金融专业主题CSS样式"""
+    """加载CSS样式"""
     css_file = Path(__file__).parent / "financial_styles.css"
-    
     if css_file.exists():
         with open(css_file, 'r', encoding='utf-8') as f:
             css_content = f.read()
-        
         st.markdown(f"<style>{css_content}</style>", unsafe_allow_html=True)
         return True
     else:
@@ -73,9 +71,7 @@ def create_status_indicator_html(status, text):
         'idle': '💤',
         'error': '❌'
     }
-    
     icon = icons.get(status, '📊')
-    
     status_html = f"""
     <div class="{status_class}">
         <span>{icon}</span>
@@ -104,7 +100,6 @@ def create_workflow_stage_html(stage_title, agents):
     agent_badges = ""
     for agent in agents:
         agent_badges += f'<span class="agent-badge">{agent}</span>'
-    
     stage_html = f"""
     <div class="workflow-stage animate-fade-in">
         <div class="stage-title">{stage_title}</div>
@@ -158,9 +153,9 @@ def create_export_buttons_html():
     """创建导出按钮组HTML"""
     buttons_html = """
     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
-        <button class="btn-export" onclick="window.export_markdown()">📄 导出Markdown</button>
-        <button class="btn-export" onclick="window.export_pdf()">📄 导出PDF</button>
-        <button class="btn-export" onclick="window.export_docx()">📄 导出Word</button>
+        <button class="btn-export" onclick="window.export_markdown()"> 导出Markdown</button>
+        <button class="btn-export" onclick="window.export_pdf()"> 导出PDF</button>
+        <button class="btn-export" onclick="window.export_docx()"> 导出Word</button>
     </div>
     """
     return buttons_html

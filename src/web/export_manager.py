@@ -13,10 +13,8 @@ from typing import Optional, Dict, Any
 
 class ExportManager:
     """导出管理器"""
-
     # 静态计数器，用于生成唯一 key
     _export_button_counter = 0
-
     @staticmethod
     def export_report_markdown(session_data: dict, output_path: str = None) -> Optional[str]:
         """导出报告为Markdown格式"""

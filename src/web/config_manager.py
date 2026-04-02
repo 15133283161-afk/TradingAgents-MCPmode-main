@@ -20,33 +20,26 @@ class ConfigManager:
         self.env_file = Path(".env")
         self.mcp_config_file = Path("mcp_config.json")
         load_dotenv()
-    
+
     def show_config_interface(self):
         """显示配置界面"""
         st.title("⚙️ 系统配置")
-        
         # 主要配置标签页
         tab1, tab2, tab3 = st.tabs(["🤖 大模型配置", "🔧 智能体权限", "🌐 MCP服务器"])
-        
         with tab1:
             self._show_llm_config()
-        
         with tab2:
             self._show_agent_permissions()
-        
         with tab3:
             self._show_mcp_config()
     
     def _show_llm_config(self):
         """显示大模型配置"""
         st.markdown("###  大模型API配置")
-        
         # 加载当前配置
         current_config = self._load_env_config()
-        
         with st.form("llm_config_form"):
             col1, col2 = st.columns(2)
-            
             with col1:
                 api_key = st.text_input(
                     "API密钥",
@@ -54,13 +47,11 @@ class ConfigManager:
                     type="password",
                     help="大模型API密钥"
                 )
-                
                 base_url = st.text_input(
                     "API基础URL",
                     value=current_config.get("LLM_BASE_URL", ""),
                     help="API服务的基础URL"
                 )
-                
                 model = st.text_input(
                     "模型名称",
                     value=current_config.get("LLM_MODEL", ""),
@@ -76,16 +67,14 @@ class ConfigManager:
                     step=0.1,
                     help="控制生成文本的随机性"
                 )
-                
                 max_tokens = st.number_input(
                     "最大Token数",
-                    min_value=100,
-                    max_value=10000,
+                    min_value=500,
+                    max_value=20000,
                     value=int(current_config.get("LLM_MAX_TOKENS", "3000")),
                     step=100,
                     help="单次请求的最大token数量"
                 )
-                
                 # 工作流配置
                 st.markdown("#### 🔄 工作流配置")
                 
@@ -104,25 +93,21 @@ class ConfigManager:
                     value=int(current_config.get("MAX_RISK_DEBATE_ROUNDS", "2")),
                     help="风险分析师的最大辩论轮次"
                 )
-            
             # 调试配置
             st.markdown("#### 🐛 调试配置")
             col3, col4 = st.columns(2)
-            
             with col3:
                 debug_mode = st.checkbox(
                     "调试模式",
                     value=current_config.get("DEBUG_MODE", "true").lower() == "true",
                     help="启用详细的调试日志"
                 )
-            
             with col4:
                 verbose_logging = st.checkbox(
                     "详细日志",
                     value=current_config.get("VERBOSE_LOGGING", "true").lower() == "true",
                     help="启用详细的执行日志"
                 )
-            
             # 提交按钮
             submitted = st.form_submit_button("💾 保存大模型配置", use_container_width=True)
             
@@ -139,7 +124,6 @@ class ConfigManager:
                     "DEBUG_MODE": "true" if debug_mode else "false",
                     "VERBOSE_LOGGING": "true" if verbose_logging else "false"
                 }
-                
                 if self._save_env_config(config_updates):
                     st.success("✅ 大模型配置已保存！需要重启系统生效。")
                     st.rerun()
@@ -149,10 +133,8 @@ class ConfigManager:
     def _show_agent_permissions(self):
         """显示智能体权限配置"""
         st.markdown("### 🔧 智能体MCP权限配置")
-        
         # 加载当前配置
         current_config = self._load_env_config()
-        
         # 智能体分组
         agent_groups = {
             "📊 分析师团队": [
@@ -182,7 +164,6 @@ class ConfigManager:
         
         with st.form("agent_permissions_form"):
             permission_updates = {}
-            
             # 全局控制
             col1, col2 = st.columns(2)
             with col1:
@@ -190,25 +171,19 @@ class ConfigManager:
                     for group_agents in agent_groups.values():
                         for agent_key, _ in group_agents:
                             permission_updates[agent_key] = "true"
-            
             with col2:
                 if st.button("🔒 全部禁用", use_container_width=True):
                     for group_agents in agent_groups.values():
                         for agent_key, _ in group_agents:
                             permission_updates[agent_key] = "false"
-            
             st.markdown("---")
-            
             # 分组显示权限配置
             for group_name, group_agents in agent_groups.items():
                 st.markdown(f"#### {group_name}")
-                
                 # 计算该组启用的智能体数量
                 enabled_count = sum(1 for agent_key, _ in group_agents 
                                   if current_config.get(agent_key, "false").lower() == "true")
-                
                 st.caption(f"已启用: {enabled_count}/{len(group_agents)}")
-                
                 cols = st.columns(2)
                 for i, (agent_key, agent_name) in enumerate(group_agents):
                     with cols[i % 2]:
@@ -219,12 +194,9 @@ class ConfigManager:
                             key=agent_key
                         )
                         permission_updates[agent_key] = "true" if new_value else "false"
-                
                 st.markdown("")
-            
             # 提交按钮
             submitted = st.form_submit_button("💾 保存权限配置", use_container_width=True)
-            
             if submitted:
                 if self._save_env_config(permission_updates):
                     st.success("✅ 智能体权限配置已保存！")
@@ -235,33 +207,25 @@ class ConfigManager:
     def _show_mcp_config(self):
         """显示MCP服务器配置"""
         st.markdown("### 🌐 MCP服务器配置")
-        
         # 加载当前MCP配置
         mcp_config = self._load_mcp_config()
-        
         if not mcp_config:
             st.warning("⚠️ 未找到MCP配置文件，将创建默认配置")
             mcp_config = {"servers": {}}
-        
         with st.form("mcp_config_form"):
             st.markdown("#### 🖥️ 服务器列表")
-            
             servers = mcp_config.get("servers", {})
             updated_servers = {}
-            
             if servers:
                 for server_name, server_config in servers.items():
                     st.markdown(f"##### 📡 {server_name}")
-                    
                     col1, col2, col3 = st.columns(3)
-                    
                     with col1:
                         url = st.text_input(
                             "服务器URL",
                             value=server_config.get("url", ""),
                             key=f"{server_name}_url"
                         )
-                    
                     with col2:
                         transport = st.selectbox(
                             "传输协议",
@@ -269,7 +233,6 @@ class ConfigManager:
                             index=["sse", "stdio", "http"].index(server_config.get("transport", "sse")),
                             key=f"{server_name}_transport"
                         )
-                    
                     with col3:
                         timeout = st.number_input(
                             "超时时间(秒)",
@@ -278,26 +241,20 @@ class ConfigManager:
                             value=server_config.get("timeout", 600),
                             key=f"{server_name}_timeout"
                         )
-                    
                     updated_servers[server_name] = {
                         "url": url,
                         "transport": transport,
                         "timeout": timeout
                     }
-                    
-                    st.markdown("---")
             else:
                 st.info("📝 当前没有配置MCP服务器")
-            
             # 新增服务器
             st.markdown("#### ➕ 添加新服务器")
-            
             col1, col2 = st.columns(2)
             with col1:
                 new_server_name = st.text_input("服务器名称", placeholder="例如: finance-data-server")
             with col2:
                 new_server_url = st.text_input("服务器URL", placeholder="例如: http://localhost:3000/sse")
-            
             col3, col4 = st.columns(2)
             with col3:
                 new_transport = st.selectbox("传输协议", ["sse", "stdio", "http"], key="new_transport")

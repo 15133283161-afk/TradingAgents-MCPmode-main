@@ -12,15 +12,12 @@ def show_debate_timeline(show_header: bool = True):
     """专业辩论时间轴展示"""
     if show_header:
         st.markdown('<h2 class="main-title">🗣️ 专业辩论展示</h2>', unsafe_allow_html=True)
-
     if not st.session_state.current_session_data:
         st.info("请先在「历史会话」标签页选择一个会话来查看辩论过程")
         return
-
     data = st.session_state.current_session_data
     agents = data.get('agents', [])
     completed_agents = [agent for agent in agents if agent.get('status') == 'completed' and agent.get('result')]
-
     if not completed_agents:
         st.info("该会话中暂无完成的智能体分析结果")
         return
@@ -30,11 +27,9 @@ def show_debate_timeline(show_header: bool = True):
         bull_count = 0
         bear_count = 0
         neutral_count = 0
-
         for agent in agents:
             agent_name = agent.get('agent_name', '').lower()
             result = agent.get('result', '').lower()
-
             # 优先根据智能体名称判断（明确的角色立场）
             if 'bull' in agent_name:
                 bull_count += 1
@@ -44,10 +39,8 @@ def show_debate_timeline(show_header: bool = True):
                 # 对于其他智能体，根据结果内容判断倾向
                 bull_keywords = ['看涨', '买入', '上涨', 'bullish', '积极', '利好', '推荐买入']
                 bear_keywords = ['看跌', '卖出', '下跌', 'bearish', '消极', '利空', '推荐卖出']
-
                 bull_score = sum(1 for kw in bull_keywords if kw in result)
                 bear_score = sum(1 for kw in bear_keywords if kw in result)
-
                 if bull_score > bear_score:
                     bull_count += 1
                 elif bear_score > bull_score:
@@ -56,14 +49,11 @@ def show_debate_timeline(show_header: bool = True):
                     neutral_count += 1
 
         return bull_count, bear_count, neutral_count
-
     bull_count, bear_count, neutral_count = calculate_votes(completed_agents)
     total = bull_count + bear_count + neutral_count
-
     if total > 0:
         bull_pct = (bull_count / total) * 100 if total > 0 else 0
         bear_pct = (bear_count / total) * 100 if total > 0 else 0
-
         st.markdown(f"""
         <div class="info-card">
             <h3 style="text-align:center;color:#ccd6f6;margin-bottom:1rem;">投票统计（共{total}票）</h3>
@@ -83,10 +73,8 @@ def show_debate_timeline(show_header: bool = True):
             </div>
         </div>
         """, unsafe_allow_html=True)
-
     st.markdown("---")
     st.markdown("### 📜 辩论时间轴")
-
     st.markdown('<div class="timeline">', unsafe_allow_html=True)
 
     for i, agent in enumerate(completed_agents):
@@ -97,7 +85,6 @@ def show_debate_timeline(show_header: bool = True):
         result = agent.get('result', '')
         # 固定展示完整内容
         display_result = result
-
         st.markdown(f"""
         <div class="timeline-item {position}">
             <div class="timeline-content">
@@ -112,9 +99,7 @@ def show_debate_timeline(show_header: bool = True):
             </div>
         </div>
         """, unsafe_allow_html=True)
-
     st.markdown('</div>', unsafe_allow_html=True)
-
     # 添加统计信息
     st.markdown("---")
     st.markdown(f"""

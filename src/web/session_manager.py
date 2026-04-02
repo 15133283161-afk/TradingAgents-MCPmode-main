@@ -11,7 +11,6 @@ from typing import Dict, Any, List
 
 class SessionManager:
     """会话状态管理器"""
-
     @staticmethod
     def init_session_state():
         """初始化会话状态"""

@@ -39,28 +39,21 @@ class AgentState(MessagesState):
     fundamentals_report: str = ""  # 基本面分析师报告
     shareholder_report: str = ""  # 股东结构分析师报告
     product_report: str = ""  # 产品分析师报告
-    
     # 研究员辩论状态
     investment_debate_state: Dict[str, Any] = {}
     investment_plan: str = ""  # 研究经理决策
-    
     # 交易员决策
     trader_investment_plan: str = ""  # 交易员投资计划
-    
     # 风险管理辩论状态
     risk_debate_state: Dict[str, Any] = {}
     final_trade_decision: str = ""  # 最终交易决策
-    
     # MCP工具调用历史
     mcp_tool_calls: List[Dict[str, Any]] = []
-    
     # 智能体执行历史
     agent_execution_history: List[Dict[str, Any]] = []
-    
     # 错误和警告信息
     errors: List[str] = []
     warnings: List[str] = []
-    
     def add_agent_execution(self, agent_name: str, action: str, result: str, mcp_used: bool = False):
         """添加智能体执行记录"""
         from datetime import datetime
@@ -71,7 +64,6 @@ class AgentState(MessagesState):
             "mcp_used": mcp_used,
             "timestamp": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         })
-    
     def add_mcp_tool_call(self, agent_name: str, tool_name: str, tool_args: Dict, tool_result: Any):
         """添加MCP工具调用记录"""
         from datetime import datetime
@@ -82,15 +74,12 @@ class AgentState(MessagesState):
             "tool_result": str(tool_result),
             "timestamp": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         })
-    
     def add_error(self, error_msg: str):
         """添加错误信息"""
         self.errors.append(error_msg)
-    
     def add_warning(self, warning_msg: str):
         """添加警告信息"""
         self.warnings.append(warning_msg)
-    
     def get_all_reports(self) -> Dict[str, str]:
         """获取所有分析师报告"""
         return {
@@ -102,16 +91,13 @@ class AgentState(MessagesState):
             "shareholder_report": self.shareholder_report,
             "product_report": self.product_report
         }
-    
     def get_debate_summary(self) -> str:
         """获取辩论摘要"""
         investment_history = self.investment_debate_state.get("history", "")
         risk_history = self.risk_debate_state.get("history", "")
-        
         summary = ""
         if investment_history:
             summary += f"投资辩论历史:\n{investment_history}\n\n"
         if risk_history:
             summary += f"风险管理辩论历史:\n{risk_history}\n\n"
-        
         return summary.strip()

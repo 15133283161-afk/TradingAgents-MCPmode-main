@@ -13,7 +13,6 @@ from datetime import datetime
 from typing import Dict, Any, List, Optional
 try:
     import markdown2
-    # markdown2 使用 markdown() 函数而不是 markdown.markdown()
     class MarkdownWrapper:
         @staticmethod
         def markdown(text, extensions=None):
@@ -34,7 +33,6 @@ import re
 
 class ResultsViewer:
     """结果查看器"""
-    
     def __init__(self):
         self.dump_dir = Path("src/dump")
         self.markdown_dir = Path("src/dumptools/markdown_reports")
@@ -68,24 +66,19 @@ class ResultsViewer:
     def show_analysts_results(self):
         """显示分析师团队结果"""
         st.title(" 分析师团队报告")
-        
         # 获取最新会话数据
         latest_session = self._get_latest_session_data()
         if not latest_session:
             st.warning(" 暂无分析数据")
             return
-        
         # 显示会话信息
         self._show_session_info(latest_session)
-        
         # 分析师列表
         analyst_agents = ['company_overview_analyst', 'market_analyst', 'sentiment_analyst', 
                          'news_analyst', 'fundamentals_analyst', 'shareholder_analyst', 'product_analyst']
-        
         # 创建标签页
         tabs = st.tabs([self.agent_mapping[agent]['emoji'] + " " + 
                        self.agent_mapping[agent]['name'].split(' ', 1)[1] for agent in analyst_agents])
-        
         for i, agent_name in enumerate(analyst_agents):
             with tabs[i]:
                 self._show_agent_result(latest_session, agent_name)
@@ -93,46 +86,37 @@ class ResultsViewer:
     def show_investment_debate(self):
         """显示投资辩论结果"""
         st.title("💭 看涨看跌辩论")
-        
         latest_session = self._get_latest_session_data()
         if not latest_session:
             st.warning("📝 暂无辩论数据")
             return
-        
         # 显示会话信息
         self._show_session_info(latest_session)
-        
         # 辩论标签页
         tab1, tab2, tab3 = st.tabs(["📈 看涨观点", "📉 看跌观点", "🔄 辩论历史"])
-        
         with tab1:
             self._show_agent_result(latest_session, 'bull_researcher')
-        
         with tab2:
             self._show_agent_result(latest_session, 'bear_researcher')
-        
         with tab3:
             self._show_debate_history(latest_session, 'investment')
     
     def show_research_manager(self):
         """显示研究经理结果"""
-        st.title("🎯 研究经理报告")
-        
+        st.title(" 研究经理报告")
         latest_session = self._get_latest_session_data()
         if not latest_session:
-            st.warning("📝 暂无数据")
+            st.warning(" 暂无数据")
             return
-        
         self._show_session_info(latest_session)
         self._show_agent_result(latest_session, 'research_manager')
     
     def show_trader(self):
         """显示交易员结果"""
-        st.title("💰 交易员报告")
-        
+        st.title(" 交易员报告")
         latest_session = self._get_latest_session_data()
         if not latest_session:
-            st.warning("📝 暂无数据")
+            st.warning(" 暂无数据")
             return
         
         self._show_session_info(latest_session)
@@ -140,11 +124,11 @@ class ResultsViewer:
     
     def show_risk_debate(self):
         """显示风险辩论结果"""
-        st.title("⚠️ 风险评估辩论")
+        st.title(" 风险评估辩论")
         
         latest_session = self._get_latest_session_data()
         if not latest_session:
-            st.warning("📝 暂无数据")
+            st.warning(" 暂无数据")
             return
         
         self._show_session_info(latest_session)
@@ -166,11 +150,11 @@ class ResultsViewer:
     
     def show_risk_manager(self):
         """显示风险经理结果"""
-        st.title("🎯 风险经理 - 最终决策")
+        st.title("风险经理 - 最终决策")
         
         latest_session = self._get_latest_session_data()
         if not latest_session:
-            st.warning("📝 暂无数据")
+            st.warning("暂无数据")
             return
         
         self._show_session_info(latest_session)
@@ -179,18 +163,18 @@ class ResultsViewer:
         # 显示最终交易决策
         if 'final_trade_decision' in latest_session:
             st.markdown("---")
-            st.markdown("## 🎯 最终交易决策")
+            st.markdown("## 最终交易决策")
             st.success(latest_session['final_trade_decision'])
     
     def show_history(self):
         """显示历史报告"""
-        st.title("📋 历史分析报告")
+        st.title(" 历史分析报告")
         
         # 获取所有会话文件
         sessions = self._get_all_sessions()
         
         if not sessions:
-            st.warning("📝 暂无历史数据")
+            st.warning(" 暂无历史数据")
             return
         
         # 会话选择
@@ -211,7 +195,7 @@ class ResultsViewer:
                 time_str = "未知时间"
             
             session_options.append({
-                'label': f"📝 {time_str} - {user_query[:30]}{'...' if len(user_query) > 30 else ''}",
+                'label': f" {time_str} - {user_query[:30]}{'...' if len(user_query) > 30 else ''}",
                 'value': session_file,
                 'data': session_data
             })
@@ -232,7 +216,7 @@ class ResultsViewer:
             self._show_session_info(selected_data)
             
             # 创建概览标签页
-            tab1, tab2, tab3 = st.tabs(["📊 执行概览", "📈 智能体结果", "📄 导出报告"])
+            tab1, tab2, tab3 = st.tabs([" 执行概览", "智能体结果", "导出报告"])
             
             with tab1:
                 self._show_session_overview(selected_data)
@@ -283,7 +267,7 @@ class ResultsViewer:
         col1, col2, col3, col4 = st.columns(4)
         
         with col1:
-            st.metric("📋 会话ID", session_data.get('session_id', 'N/A'))
+            st.metric("会话ID", session_data.get('session_id', 'N/A'))
         
         with col2:
             status = session_data.get('status', 'unknown')
@@ -300,7 +284,7 @@ class ResultsViewer:
                     time_str = created_at[:16]
             else:
                 time_str = "未知"
-            st.metric("⏰ 创建时间", time_str)
+            st.metric(" 创建时间", time_str)
         
         with col4:
             agents = session_data.get('agents', [])
@@ -310,7 +294,7 @@ class ResultsViewer:
         # 用户查询
         user_query = session_data.get('user_query', '')
         if user_query:
-            st.info(f"🔍 分析问题: {user_query}")
+            st.info(f"分析问题: {user_query}")
         
         st.markdown("---")
     
@@ -502,11 +486,11 @@ class ResultsViewer:
                 with st.expander(f"{status_emoji} {agent_info['name']}", expanded=False):
                     result = agent_data.get('result', '')
                     if result:
-                        # 显示结果的前200字符
-                        preview = result[:200] + "..." if len(result) > 200 else result
+                        # 显示结果的前300字符
+                        preview = result[:300] + "..." if len(result) > 200 else result
                         st.markdown(preview)
                         
-                        if len(result) > 200:
+                        if len(result) > 300:
                             if st.button(f"查看完整结果", key=f"view_{agent_name}"):
                                 st.markdown("---")
                                 st.markdown(result)

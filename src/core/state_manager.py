@@ -11,7 +11,6 @@ class StateManager:
             "bull_researcher", "bear_researcher", "research_manager", "trader",
             "aggressive_risk_analyst", "safe_risk_analyst", "neutral_risk_analyst", "risk_manager"
         ]
-        
         # 智能体状态
         self.agent_states = {}
         for agent in self.agent_order:
@@ -24,7 +23,6 @@ class StateManager:
                 "results_count": 0,
                 "mcp_calls_count": 0
             }
-        
         # 工作流状态
         self.workflow_state = {
             "status": "idle",  # idle, running, completed, failed
@@ -34,7 +32,6 @@ class StateManager:
             "start_time": None,
             "estimated_completion": None
         }
-        
         # 辩论状态
         self.debate_states = {
             "investment_debate": {

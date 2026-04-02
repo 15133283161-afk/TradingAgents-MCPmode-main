@@ -12,7 +12,6 @@ from src.web.export_manager import ExportManager
 def show_analysis_results():
     """分析结果展示"""
     st.markdown('<h2 class="main-title"> 分析结果详情</h2>', unsafe_allow_html=True)
-
     if not st.session_state.current_session_data:
         st.info("请先运行分析或加载历史会话查看结果")
         return

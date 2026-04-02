@@ -31,7 +31,6 @@ def configure_page():
         layout="wide",
         initial_sidebar_state="expanded"
     )
-
     warnings.filterwarnings("ignore")
     logging.getLogger().setLevel(logging.ERROR)
 
@@ -79,13 +78,10 @@ def main():
 
     with tab1:
         show_real_time_analysis()
-
     with tab2:
         show_history_sessions()
-
     with tab3:
         show_debate_timeline()
-
     with tab4:
         show_system_overview()
 

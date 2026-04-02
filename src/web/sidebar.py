@@ -60,11 +60,8 @@ def show_sidebar():
                 from src.web.analysis_engine import AnalysisEngine
                 from src.workflow_orchestrator import WorkflowOrchestrator
                 AnalysisEngine.auto_connect_system(WorkflowOrchestrator)
-
         st.markdown("---")
-
         st.markdown("### 智能体控制")
-
         agent_groups = {
             '分析师团队': ['company_overview_analyst', 'market_analyst', 'sentiment_analyst',
                            'news_analyst', 'fundamentals_analyst', 'shareholder_analyst', 'product_analyst'],
@@ -72,10 +69,8 @@ def show_sidebar():
             '管理层': ['research_manager', 'trader'],
             '风险管理': ['aggressive_risk_analyst', 'safe_risk_analyst', 'neutral_risk_analyst', 'risk_manager'],
         }
-
         enabled_count = sum(1 for v in st.session_state.active_agents.values() if v)
         st.info(f"已启用 {enabled_count}/15 个智能体")
-
         for group_name, agents in agent_groups.items():
             with st.expander(group_name, expanded=True):
                 for agent in agents:
@@ -86,9 +81,7 @@ def show_sidebar():
                         key=f"agent_{agent}"
                     )
         st.markdown("---")
-
         st.markdown("### 🌀 辩论配置")
-
         st.session_state.debate_rounds = st.number_input(
             "投资辩论轮次",
             min_value=0,
@@ -97,7 +90,6 @@ def show_sidebar():
             step=1,
             help="设置投资辩论的轮次数（0-5轮）"
         )
-
         st.session_state.risk_debate_rounds = st.number_input(
             "风险辩论轮次",
             min_value=0,
@@ -106,9 +98,7 @@ def show_sidebar():
             step=1,
             help="设置风险辩论的轮次数（0-5轮）"
         )
-
         st.markdown("---")
-
         if st.session_state.chat_history:
             st.markdown("### 💬 对话历史")
             for i, chat in enumerate(reversed(st.session_state.chat_history[-5:])):

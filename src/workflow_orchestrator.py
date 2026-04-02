@@ -24,28 +24,21 @@ class WorkflowOrchestrator:
     def __init__(self, config_file: str = "mcp_config.json"):
         # 加载环境变量
         load_dotenv()
-        
         # 初始化MCP管理器
         self.mcp_manager = MCPManager(config_file)
-        
         # 初始化进度管理器
         self.progress_manager = None
-        
         # 初始化所有智能体
         self.agents = self._initialize_agents()
-        
         # 工作流配置
         self.max_debate_rounds = int(os.getenv("MAX_DEBATE_ROUNDS", "3"))
         self.max_risk_debate_rounds = int(os.getenv("MAX_RISK_DEBATE_ROUNDS", "2"))
         self.debug_mode = os.getenv("DEBUG_MODE", "true").lower() == "true"
         self.verbose_logging = os.getenv("VERBOSE_LOGGING", "true").lower() == "true"
-        
         # 创建状态图
         self.workflow = self._create_workflow()
-        
         # 本轮启用的智能体集合（为空表示默认启用全部）
         self.active_agents: Set[str] = set()
-        
     
     def _initialize_agents(self) -> Dict[str, Any]:
         """初始化所有智能体"""
@@ -58,15 +51,12 @@ class WorkflowOrchestrator:
             "fundamentals_analyst": FundamentalsAnalyst(self.mcp_manager),
             "shareholder_analyst": ShareholderAnalyst(self.mcp_manager),
             "product_analyst": ProductAnalyst(self.mcp_manager),
-            
             # 研究员团队
             "bull_researcher": BullResearcher(self.mcp_manager),
             "bear_researcher": BearResearcher(self.mcp_manager),
-            
             # 管理层
             "research_manager": ResearchManager(self.mcp_manager),
             "trader": Trader(self.mcp_manager),
-            
             # 风险管理团队
             "aggressive_risk_analyst": AggressiveRiskAnalyst(self.mcp_manager),
             "safe_risk_analyst": SafeRiskAnalyst(self.mcp_manager),
@@ -79,7 +69,6 @@ class WorkflowOrchestrator:
     def _create_workflow(self) -> StateGraph:
         """创建工作流状态图"""
         workflow = StateGraph(AgentState)
-        
         # 添加节点
         workflow.add_node("company_overview_analyst", self._company_overview_analyst_node)
         workflow.add_node("market_analyst", self._market_analyst_node)
@@ -90,29 +79,22 @@ class WorkflowOrchestrator:
         workflow.add_node("product_analyst", self._product_analyst_node)
         # 新增：分析师并行聚合节点
         workflow.add_node("analysts_parallel", self._analysts_parallel_node)
-        
         workflow.add_node("bull_researcher", self._bull_researcher_node)
         workflow.add_node("bear_researcher", self._bear_researcher_node)
         workflow.add_node("research_manager", self._research_manager_node)
-        
         workflow.add_node("trader", self._trader_node)
-        
         workflow.add_node("aggressive_risk_analyst", self._aggressive_risk_analyst_node)
         workflow.add_node("safe_risk_analyst", self._safe_risk_analyst_node)
         workflow.add_node("neutral_risk_analyst", self._neutral_risk_analyst_node)
         workflow.add_node("risk_manager", self._risk_manager_node)
-        
         # 设置入口点
         workflow.set_entry_point("company_overview_analyst")
-        
         # 添加边（定义流程）
         # 第零阶段：公司概述分析
         # 概述后进入分析师并行节点（内部并发执行6个分析师）
         workflow.add_edge("company_overview_analyst", "analysts_parallel")
-        
         # 第一阶段：分析师并行（在单独节点中完成），完成后进入研究员辩论
         workflow.add_edge("analysts_parallel", "bull_researcher")
-        
         # 第二阶段：研究员辩论（由并行节点汇聚后进入）
         workflow.add_conditional_edges(
             "bull_researcher",
@@ -130,10 +112,8 @@ class WorkflowOrchestrator:
                 "research_manager": "research_manager"
             }
         )
-        
         # 第三阶段：交易员决策
         workflow.add_edge("research_manager", "trader")
-        
         # 第四阶段：风险管理辩论
         workflow.add_edge("trader", "aggressive_risk_analyst")
         workflow.add_conditional_edges(
