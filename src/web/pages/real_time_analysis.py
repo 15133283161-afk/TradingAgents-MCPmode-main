@@ -100,10 +100,6 @@ def show_real_time_analysis():
         st.rerun()
 
     if st.session_state.analysis_completed and st.session_state.current_session_data:
-        # 设置当前页面标识，用于区分不同页面的导出按钮
-        st.session_state.active_page = 'real_time_analysis'
-        from src.web.pages.analysis_results import show_analysis_results
-        show_analysis_results()
         # 分析完成后，自动在同一页加载“对话/辩论展示”
         st.markdown("---")
         st.markdown("###  分析完成的对话（辩论展示）")

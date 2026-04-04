@@ -31,7 +31,7 @@ class WorkflowOrchestrator:
         # 初始化所有智能体
         self.agents = self._initialize_agents()
         # 工作流配置
-        self.max_debate_rounds = int(os.getenv("MAX_DEBATE_ROUNDS", "3"))
+        self.max_debate_rounds = int(os.getenv("MAX_DEBATE_ROUNDS", "5"))
         self.max_risk_debate_rounds = int(os.getenv("MAX_RISK_DEBATE_ROUNDS", "2"))
         self.debug_mode = os.getenv("DEBUG_MODE", "true").lower() == "true"
         self.verbose_logging = os.getenv("VERBOSE_LOGGING", "true").lower() == "true"

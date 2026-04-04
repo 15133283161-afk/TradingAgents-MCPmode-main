@@ -52,11 +52,11 @@ def show_sidebar():
         st.markdown("---")
         st.markdown("系统状态")
         if st.session_state.orchestrator:
-            st.success("✅ 系统已连接")
+            st.success(" 系统已连接")
             st.caption("所有智能体已就绪")
         else:
-            st.warning("⚠️ 等待连接")
-            if st.button("🔗 连接系统", use_container_width=True):
+            st.warning(" 等待连接")
+            if st.button(" 连接系统", use_container_width=True):
                 from src.web.analysis_engine import AnalysisEngine
                 from src.workflow_orchestrator import WorkflowOrchestrator
                 AnalysisEngine.auto_connect_system(WorkflowOrchestrator)
@@ -81,29 +81,29 @@ def show_sidebar():
                         key=f"agent_{agent}"
                     )
         st.markdown("---")
-        st.markdown("### 🌀 辩论配置")
+        st.markdown("###  辩论配置")
         st.session_state.debate_rounds = st.number_input(
             "投资辩论轮次",
             min_value=0,
-            max_value=5,
+            max_value=6,
             value=int(st.session_state.debate_rounds),
             step=1,
-            help="设置投资辩论的轮次数（0-5轮）"
+            help="设置投资辩论的轮次数（0-6轮）"
         )
         st.session_state.risk_debate_rounds = st.number_input(
             "风险辩论轮次",
             min_value=0,
-            max_value=5,
+            max_value=6,
             value=int(st.session_state.risk_debate_rounds),
             step=1,
-            help="设置风险辩论的轮次数（0-5轮）"
+            help="设置风险辩论的轮次数（0-6轮）"
         )
         st.markdown("---")
         if st.session_state.chat_history:
             st.markdown("### 💬 对话历史")
             for i, chat in enumerate(reversed(st.session_state.chat_history[-5:])):
                 query_preview = chat['query'][:30] + "..." if len(chat['query']) > 30 else chat['query']
-                if st.button(f"💭 {query_preview}", key=f"history_{i}", use_container_width=True):
+                if st.button(f" {query_preview}", key=f"history_{i}", use_container_width=True):
                     st.session_state.current_session_data = chat['result']
                     st.session_state.analysis_completed = True
                     st.rerun()

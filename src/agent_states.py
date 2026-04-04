@@ -1,7 +1,7 @@
 from typing import Dict, Any, List, Optional
 from langgraph.graph import MessagesState
 from pydantic import BaseModel
-
+from datetime import datetime
 
 class InvestDebateState(BaseModel):
     """投资辩论状态管理"""
@@ -56,7 +56,6 @@ class AgentState(MessagesState):
     warnings: List[str] = []
     def add_agent_execution(self, agent_name: str, action: str, result: str, mcp_used: bool = False):
         """添加智能体执行记录"""
-        from datetime import datetime
         self.agent_execution_history.append({
             "agent_name": agent_name,
             "action": action,
@@ -66,7 +65,6 @@ class AgentState(MessagesState):
         })
     def add_mcp_tool_call(self, agent_name: str, tool_name: str, tool_args: Dict, tool_result: Any):
         """添加MCP工具调用记录"""
-        from datetime import datetime
         self.mcp_tool_calls.append({
             "agent_name": agent_name,
             "tool_name": tool_name,

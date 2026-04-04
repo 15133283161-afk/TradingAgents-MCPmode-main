@@ -99,10 +99,17 @@ def show_system_overview(MCP_KNOWN_TOOL_COUNT=None):
         col1, col2, col3, col4 = st.columns(4)
         with col1:
             # 已连接显示数量；有配置未连接显示「已配置」；否则「未连接」（逻辑参考 mcp_tools_showcase）
+            configured_tool_count = MCP_KNOWN_TOOL_COUNT
+            if not isinstance(configured_tool_count, int) or configured_tool_count <= 0:
+                configured_tool_count = sum(
+                    server_data.get('tool_count', 0)
+                    for server_data in mcp_info.get('servers', {}).values()
+                )
+
             if total_tools > 0:
                 mcp_tools_label = f"{total_tools} 个"
             elif mcp_info.get("config_available"):
-                mcp_tools_label = f"已配置{MCP_KNOWN_TOOL_COUNT}个"
+                mcp_tools_label = f"已配置{configured_tool_count}个" if configured_tool_count > 0 else "已配置"
             else:
                 mcp_tools_label = "未连接"
             st.metric("MCP工具", mcp_tools_label)

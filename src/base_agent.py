@@ -2,8 +2,6 @@ import os
 from abc import ABC, abstractmethod
 from typing import Dict, Any, List, Optional
 from datetime import datetime
-
-import datetime
 from langchain_openai import ChatOpenAI
 try:
     from langchain_core.messages import HumanMessage, AIMessage
@@ -135,7 +133,7 @@ class BaseAgent(ABC):
     
 
     
-    async def call_llm_with_context(self, state: AgentState, user_message: str, progress_tracker=None) -> str:
+    async def call_llm_with_context(self, state: AgentState, user_message: str, progress_tracker=None, datetime=None) -> str:
         """调用LLM并处理上下文"""
         try:
             # 打印agent开始信息
@@ -457,7 +455,6 @@ class BaseAgent(ABC):
             if not state.user_query:
                 state.add_error(f"{self.agent_name}: 缺少用户查询信息")
                 return False
-        
         return True
     
     def format_output(self, content: str, state: AgentState) -> str:
@@ -470,14 +467,13 @@ class BaseAgent(ABC):
         else:
             user_query = state.user_query
         
-        formatted_content = f"""
-=== {self.agent_name} 分析报告 ===
-时间: {datetime.now().strftime('%Y%m%d %H:%M:%S')}
-用户问题: {user_query}
-MCP工具: {'启用' if self.mcp_enabled else '禁用'}
-
-{content}
-
-=== 报告结束 ===
-"""
+        formatted_content = \
+        f"""
+        === {self.agent_name} 分析报告 ===
+        时间: {datetime.now().strftime('%Y%m%d %H:%M:%S')}
+        用户问题: {user_query}
+        MCP工具: {'启用' if self.mcp_enabled else '禁用'}
+        {content}
+        === 报告结束 ===
+        """
         return formatted_content.strip()

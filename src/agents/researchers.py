@@ -65,14 +65,12 @@ class BullResearcher(BaseAgent):
                 # 首轮发言
                 analysis_request = f"""
 基于所有可用的分析报告，请为用户问题 "{user_query}" 构建强有力的看涨投资案例。
-
 重点关注：
 1. 公司的核心竞争优势
 2. 增长潜力和市场机会
 3. 被低估的价值点
 4. 技术面和基本面的积极信号
 5. 具体的投资建议和目标价位
-
 请提供详细的看涨论证。
 """
             else:
@@ -80,9 +78,7 @@ class BullResearcher(BaseAgent):
                 analysis_request = f"""
 看跌研究员提出了以下观点：
 {current_response}
-
 请针对这些看跌观点进行有力的反驳，并进一步强化你的看涨论证。
-
 反驳要点：
 1. 指出看跌观点的局限性或偏见
 2. 提供相反的证据和数据
