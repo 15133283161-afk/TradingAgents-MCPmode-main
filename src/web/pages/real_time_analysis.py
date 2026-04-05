@@ -102,6 +102,6 @@ def show_real_time_analysis():
     if st.session_state.analysis_completed and st.session_state.current_session_data:
         # 分析完成后，自动在同一页加载“对话/辩论展示”
         st.markdown("---")
-        st.markdown("###  分析完成的对话（辩论展示）")
+        st.markdown("###  分析完成的对话")
         from src.web.pages.debate_timeline import show_debate_timeline
         show_debate_timeline(show_header=False)

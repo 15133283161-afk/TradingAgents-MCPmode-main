@@ -48,7 +48,6 @@ def get_system_capabilities():
                     'servers': {},
                     'agent_permissions': st.session_state.active_agents
                 }
-            # 未连接时：用 mcp_config.json 判断是否已配置（参考 mcp_tools_showcase.py）
             if mcp_tools_info.get('total_tools', 0) == 0:
                 file_config = _load_mcp_config()
                 if file_config:

@@ -140,18 +140,16 @@ class WorkflowOrchestrator:
                 "risk_manager": "risk_manager"
             }
         )
-        
         # 结束
         workflow.add_edge("risk_manager", END)
-        
         return workflow.compile()
     
     # 节点处理函数
     async def _company_overview_analyst_node(self, state: AgentState) -> AgentState:
         """公司概述分析师节点"""
         agent_display = "Company Overview Analyst"
-        print(f"\n  📌 [节点启动] {agent_display}")
-        print(f"  ⏱️  时间: {datetime.now().strftime('%H:%M:%S')}")
+        print(f"\n   [节点启动] {agent_display}")
+        print(f"    时间: {datetime.now().strftime('%H:%M:%S')}")
 
         self._check_cancel()
         if not self._is_active("company_overview_analyst"):
@@ -159,10 +157,10 @@ class WorkflowOrchestrator:
             self._check_cancel()
             return state
 
-        print(f"  🔍 执行中...")
+        print(f"  执行中...")
         # 不再在这里调用start_agent，让BaseAgent自己处理
         result = await self.agents["company_overview_analyst"].process(state, self.progress_manager)
-        print(f"  ✅ 完成")
+        print(f"  完成")
         self._check_cancel()
         return result
 
@@ -173,7 +171,6 @@ class WorkflowOrchestrator:
             self._skip_agent("market_analyst")
             self._check_cancel()
             return state
-        # 不再在这里调用start_agent，让BaseAgent自己处理
         result = await self.agents["market_analyst"].process(state, self.progress_manager)
         self._check_cancel()
         return result
@@ -185,7 +182,6 @@ class WorkflowOrchestrator:
             self._skip_agent("sentiment_analyst")
             self._check_cancel()
             return state
-        # 不再在这里调用start_agent，让BaseAgent自己处理
         result = await self.agents["sentiment_analyst"].process(state, self.progress_manager)
         self._check_cancel()
         return result
@@ -197,7 +193,6 @@ class WorkflowOrchestrator:
             self._skip_agent("news_analyst")
             self._check_cancel()
             return state
-        # 不再在这里调用start_agent，让BaseAgent自己处理
         result = await self.agents["news_analyst"].process(state, self.progress_manager)
         self._check_cancel()
         return result
@@ -209,7 +204,6 @@ class WorkflowOrchestrator:
             self._skip_agent("fundamentals_analyst")
             self._check_cancel()
             return state
-        # 不再在这里调用start_agent，让BaseAgent自己处理
         result = await self.agents["fundamentals_analyst"].process(state, self.progress_manager)
         self._check_cancel()
         return result
@@ -221,7 +215,6 @@ class WorkflowOrchestrator:
             self._skip_agent("shareholder_analyst")
             self._check_cancel()
             return state
-        # 不再在这里调用start_agent，让BaseAgent自己处理
         result = await self.agents["shareholder_analyst"].process(state, self.progress_manager)
         self._check_cancel()
         return result
@@ -233,7 +226,6 @@ class WorkflowOrchestrator:
             self._skip_agent("product_analyst")
             self._check_cancel()
             return state
-        # 不再在这里调用start_agent，让BaseAgent自己处理
         result = await self.agents["product_analyst"].process(state, self.progress_manager)
         self._check_cancel()
         return result
