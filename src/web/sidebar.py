@@ -105,5 +105,7 @@ def show_sidebar():
                 query_preview = chat['query'][:30] + "..." if len(chat['query']) > 30 else chat['query']
                 if st.button(f" {query_preview}", key=f"history_{i}", use_container_width=True):
                     st.session_state.current_session_data = chat['result']
+                    session_file = chat['result'].get('session_file') if isinstance(chat.get('result'), dict) else None
+                    st.session_state.selected_session_file = session_file
                     st.session_state.analysis_completed = True
                     st.rerun()

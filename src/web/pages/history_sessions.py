@@ -118,5 +118,12 @@ def show_history_sessions():
                 st.session_state.selected_session_file = str(session['file'])
                 st.session_state.current_session_data = session['data']
                 st.session_state.analysis_completed = True
+                if 'chat_history' not in st.session_state:
+                    st.session_state.chat_history = []
+                st.session_state.chat_history.append({
+                    'query': session['data'].get('user_query', ''),
+                    'timestamp': datetime.now().isoformat(),
+                    'result': session['data']
+                })
                 st.success("✅ 会话加载成功！")
                 st.rerun()

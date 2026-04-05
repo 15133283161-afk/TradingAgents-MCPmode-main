@@ -13,13 +13,13 @@ from src.web.pages.analysis_results import show_analysis_results
 
 def show_real_time_analysis():
     """实时分析页面"""
-    st.markdown('<h2 class="main-title">🔍 智能实时分析</h2>', unsafe_allow_html=True)
+    st.markdown('<h2 class="main-title"> 智能实时分析</h2>', unsafe_allow_html=True)
     # 检查后台分析状态（在主线程中执行）
     AnalysisEngine.check_and_update_analysis_state()
     if not st.session_state.orchestrator:
         AnalysisEngine.auto_connect_system(WorkflowOrchestrator)
     if not st.session_state.orchestrator:
-        st.info("👆 请先在侧边栏连接系统")
+        st.info(" 请先在侧边栏连接系统")
         return
     st.markdown('<div class="info-card">', unsafe_allow_html=True)
     user_query = st.text_area(

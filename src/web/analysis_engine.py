@@ -30,6 +30,39 @@ class AnalysisEngine:
     """分析引擎"""
 
     @staticmethod
+    def _load_latest_completed_session(query: str) -> Optional[Dict[str, Any]]:
+        """优先加载本次分析对应的完整会话文件。"""
+        try:
+            dump_dir = Path("src/dump")
+            if not dump_dir.exists():
+                return None
+
+            session_files = sorted(
+                dump_dir.glob("session_*.json"),
+                key=lambda f: f.stat().st_mtime,
+                reverse=True
+            )
+
+            for session_file in session_files:
+                try:
+                    with open(session_file, 'r', encoding='utf-8') as f:
+                        data = json.load(f)
+
+                    if data.get('user_query') != query:
+                        continue
+                    if (data.get('status') or '').lower() != 'completed':
+                        continue
+
+                    data['session_file'] = str(session_file)
+                    return data
+                except Exception:
+                    continue
+        except Exception:
+            return None
+
+        return None
+
+    @staticmethod
     def auto_connect_system(WorkflowOrchestrator):
         """自动连接MCP系统（含 MCP 客户端初始化，系统系统配置可显示工具数）"""
         if not st.session_state.orchestrator and WorkflowOrchestrator:
@@ -102,49 +135,44 @@ class AnalysisEngine:
 
             if result and not analysis_state.cancelled:
                 try:
-                    dump_dir = Path("src/dump")
-                    dump_dir.mkdir(parents=True, exist_ok=True)
+                    full_session_data = AnalysisEngine._load_latest_completed_session(query)
 
-                    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                    session_file = dump_dir / f"session_{timestamp}_{abs(hash(query)) % 1000000:06d}.json"
-
-                    # 获取 agent_execution_history（列表格式）
-                    agent_history = getattr(result, 'agent_execution_history', [])
-
-                    # 构建结果字典
-                    result_dict = {
-                        'session_id': timestamp,
-                        'user_query': query,
-                        'status': 'completed',
-                        'timestamp': datetime.now().isoformat(),
-                        'agents': [],
-                        'agent_execution_history': agent_history,
-                        # 便于前端在分析完成后直接定位并加载该会话
-                        'session_file': str(session_file)
-                    }
-
-                    # 将 agent_execution_history 列表转换为 agents 列表
-                    if agent_history:
-                        for agent_data in agent_history:
-                            agent_name = agent_data.get('agent_name', 'unknown')
-                            result_content = agent_data.get('result', '')
-
-                            result_dict['agents'].append({
-                                'agent_name': agent_name,
-                                'status': agent_data.get('status', 'completed'),
-                                'result': result_content,  # 使用 'result' 字段而不是 'response'
-                                'end_time': agent_data.get('timestamp', datetime.now().isoformat())  # 使用 'timestamp' 字段
-                            })
-
-                    # 只有当有有效数据时才保存文件
-                    if result_dict['agents']:
-                        with open(session_file, 'w', encoding='utf-8') as f:
-                            json.dump(result_dict, f, ensure_ascii=False, indent=2)
-
-                        # 将结果存储在 analysis_state 中
-                        analysis_state.result_dict = result_dict
+                    if full_session_data:
+                        analysis_state.result_dict = full_session_data
                     else:
-                        # 即使没有保存文件，仍然将结果存储以便显示
+                        dump_dir = Path("src/dump")
+                        dump_dir.mkdir(parents=True, exist_ok=True)
+
+                        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                        session_file = dump_dir / f"session_{timestamp}_{abs(hash(query)) % 1000000:06d}.json"
+
+                        agent_history = getattr(result, 'agent_execution_history', [])
+                        result_dict = {
+                            'session_id': timestamp,
+                            'user_query': query,
+                            'status': 'completed',
+                            'timestamp': datetime.now().isoformat(),
+                            'agents': [],
+                            'agent_execution_history': agent_history,
+                            'session_file': str(session_file)
+                        }
+
+                        if agent_history:
+                            for agent_data in agent_history:
+                                agent_name = agent_data.get('agent_name', 'unknown')
+                                result_content = agent_data.get('result', '')
+
+                                result_dict['agents'].append({
+                                    'agent_name': agent_name,
+                                    'status': agent_data.get('status', 'completed'),
+                                    'result': result_content,
+                                    'end_time': agent_data.get('timestamp', datetime.now().isoformat())
+                                })
+
+                        if result_dict['agents']:
+                            with open(session_file, 'w', encoding='utf-8') as f:
+                                json.dump(result_dict, f, ensure_ascii=False, indent=2)
+
                         analysis_state.result_dict = result_dict
                 except Exception as e:
                     analysis_state.error = str(e)
