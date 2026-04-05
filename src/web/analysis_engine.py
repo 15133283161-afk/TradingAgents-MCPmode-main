@@ -31,13 +31,13 @@ class AnalysisEngine:
 
     @staticmethod
     def auto_connect_system(WorkflowOrchestrator):
-        """自动连接MCP系统（含 MCP 客户端初始化，系统概览可显示工具数）"""
+        """自动连接MCP系统（含 MCP 客户端初始化，系统系统配置可显示工具数）"""
         if not st.session_state.orchestrator and WorkflowOrchestrator:
             with st.spinner("🔄 正在连接AI系统..."):
                 try:
                     load_dotenv()
                     orchestrator = WorkflowOrchestrator()
-                    # 初始化 MCP 连接与工具发现，使系统概览能显示真实工具数
+                    # 初始化 MCP 连接与工具发现，使系统系统配置能显示真实工具数
                     try:
                         loop = asyncio.new_event_loop()
                         asyncio.set_event_loop(loop)

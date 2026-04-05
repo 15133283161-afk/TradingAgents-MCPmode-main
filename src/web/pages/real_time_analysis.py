@@ -9,6 +9,7 @@ from src.web.sidebar import get_agent_display_name, get_agent_type
 from src.web.analysis_engine import AnalysisEngine, start_analysis, stop_analysis
 from src.workflow_orchestrator import WorkflowOrchestrator
 
+from src.web.pages.analysis_results import show_analysis_results
 
 def show_real_time_analysis():
     """实时分析页面"""
@@ -100,8 +101,7 @@ def show_real_time_analysis():
         st.rerun()
 
     if st.session_state.analysis_completed and st.session_state.current_session_data:
-        # 分析完成后，自动在同一页加载“对话/辩论展示”
-        st.markdown("---")
-        st.markdown("###  分析完成的对话")
-        from src.web.pages.debate_timeline import show_debate_timeline
-        show_debate_timeline(show_header=False)
+        # 设置当前页面标识，用于区分不同页面的导出按钮
+        st.session_state.active_page = 'real_time_analysis'
+        show_analysis_results()
+

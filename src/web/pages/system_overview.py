@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-系统概览页面
 参考 mcp_tools_showcase.py：从 mcp_config.json 读取配置，在未连接时也显示「已配置」状态。
 """
 
@@ -85,8 +84,8 @@ def get_system_capabilities():
         return {'agents_count': 15, 'mcp_tools_info': mcp_fallback}
 
 def show_system_overview(MCP_KNOWN_TOOL_COUNT=None):
-    """显示系统概览"""
-    st.markdown('<h2 class="main-title">🏛️ 系统概览</h2>', unsafe_allow_html=True)
+    """显示系统配置"""
+    st.markdown('<h2 class="main-title">🏛️ 系统配置</h2>', unsafe_allow_html=True)
     capabilities = get_system_capabilities()
     if capabilities:
         mcp_info = capabilities.get('mcp_tools_info', {})

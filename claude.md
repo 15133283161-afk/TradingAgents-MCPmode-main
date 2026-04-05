@@ -71,7 +71,7 @@ TradingAgents-MCPmode-main/
 │   │       ├── history_sessions.py      # 历史会话页
 │   │       ├── debate_timeline.py       # 辩论时间线可视化
 │   │       ├── analysis_results.py      # 结果展示页
-│   │       └── system_overview.py       # 系统概览页
+│   │       └── system_overview.py       # 系统配置页
 │   │
 │   ├── dumptools/                   # 导出工具
 │   │   ├── json_to_markdown.py      # JSON → Markdown
