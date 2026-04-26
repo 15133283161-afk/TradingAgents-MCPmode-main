@@ -1,21 +1,23 @@
-import os
 import asyncio
-from typing import Dict, Any, List, Optional, Set
+import os
 from datetime import datetime
-from langgraph.graph import StateGraph, END
+from typing import Dict, Any, List, Optional, Set
+
 from dotenv import load_dotenv
+from langgraph.graph import StateGraph, END
 
 from .agent_states import AgentState
-from .mcp_manager import MCPManager
-from .progress_tracker import ProgressTracker
 from .agents.analysts import (
-    CompanyOverviewAnalyst, MarketAnalyst, SentimentAnalyst, NewsAnalyst, FundamentalsAnalyst, ShareholderAnalyst, ProductAnalyst
+    CompanyOverviewAnalyst, MarketAnalyst, SentimentAnalyst, NewsAnalyst, FundamentalsAnalyst, ShareholderAnalyst,
+    ProductAnalyst
 )
-from .agents.researchers import BullResearcher, BearResearcher
 from .agents.managers import ResearchManager, Trader
+from .agents.researchers import BullResearcher, BearResearcher
 from .agents.risk_management import (
     AggressiveRiskAnalyst, SafeRiskAnalyst, NeutralRiskAnalyst, RiskManager
 )
+from .mcp_manager import MCPManager
+from .progress_tracker import ProgressTracker
 
 
 class WorkflowOrchestrator:
@@ -233,7 +235,7 @@ class WorkflowOrchestrator:
     async def _analysts_parallel_node(self, state: AgentState) -> AgentState:
         """分析师并行节点：并发执行6个分析师并合并结果"""
         import copy
-        from asyncio import gather, create_task, wait, FIRST_COMPLETED
+        from asyncio import create_task, wait, FIRST_COMPLETED
 
         print("\n" + "─"*80)
         print(" 阶段 1: 并行分析师团队")
@@ -657,12 +659,10 @@ class WorkflowOrchestrator:
             if self.verbose_logging:
                 self._log_analysis_summary(final_state)
 
-            print("\n" + "="*80)
-            print("✅ 分析完成".center(80))
-            print("="*80)
-            print(f"⏰ 完成时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-            print(f"📄 会话ID: {self.progress_manager.session_id if self.progress_manager else 'N/A'}")
-            print("="*80 + "\n")
+
+            print(" 分析完成".center(80))
+            print(f" 完成时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+            print(f" 会话ID: {self.progress_manager.session_id if self.progress_manager else 'N/A'}")
 
             return final_state
 

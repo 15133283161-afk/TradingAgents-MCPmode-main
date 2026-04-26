@@ -28,8 +28,7 @@ from src.web.pages import (
 def configure_page():
     """配置页面"""
     st.set_page_config(
-        page_title="AI实验室 - 智能交易分析系统",
-        page_icon="🤖",
+        page_title="智能交易分析系统",
         layout="wide",
         initial_sidebar_state="expanded"
     )
@@ -72,11 +71,11 @@ def main():
     """, unsafe_allow_html=True)
 
     tab1, tab2, tab3, tab4, tab5 = st.tabs([
-        "🔍 实时分析",
-        "📚 历史会话",
-        "🗣️ 辩论展示",
-        "🏛️ 系统配置",
-        "🤖 AI对话"
+        " 实时分析",
+        " 历史会话",
+        " 辩论展示",
+        " 系统配置",
+        " AI 对话 "
     ])
 
     with tab1:
