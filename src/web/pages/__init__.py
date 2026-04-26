@@ -5,10 +5,11 @@ Pages模块
 包含Streamlit应用的各个页面
 """
 
-from .real_time_analysis import show_real_time_analysis
-from .history_sessions import show_history_sessions
-from .debate_timeline import show_debate_timeline
+from .ai_chat import show_ai_chat
 from .analysis_results import show_analysis_results
+from .debate_timeline import show_debate_timeline
+from .history_sessions import show_history_sessions
+from .real_time_analysis import show_real_time_analysis
 from .system_overview import show_system_overview
 
 __all__ = [
@@ -17,4 +18,5 @@ __all__ = [
     'show_debate_timeline',
     'show_analysis_results',
     'show_system_overview',
+    'show_ai_chat',
 ]

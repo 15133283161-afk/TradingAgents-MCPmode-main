@@ -5,11 +5,12 @@
 Streamlit应用的主入口
 """
 
-import streamlit as st
-import sys
-import os
-import warnings
 import logging
+import os
+import sys
+import warnings
+
+import streamlit as st
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -19,7 +20,8 @@ from src.web.pages import (
     show_real_time_analysis,
     show_history_sessions,
     show_debate_timeline,
-    show_system_overview
+    show_system_overview,
+    show_ai_chat
 )
 
 
@@ -27,7 +29,7 @@ def configure_page():
     """配置页面"""
     st.set_page_config(
         page_title="AI实验室 - 智能交易分析系统",
-        page_icon="🔬",
+        page_icon="🤖",
         layout="wide",
         initial_sidebar_state="expanded"
     )
@@ -69,11 +71,12 @@ def main():
     </div>
     """, unsafe_allow_html=True)
 
-    tab1, tab2, tab3, tab4 = st.tabs([
+    tab1, tab2, tab3, tab4, tab5 = st.tabs([
         "🔍 实时分析",
         "📚 历史会话",
         "🗣️ 辩论展示",
-        "🏛️ 系统配置"
+        "🏛️ 系统配置",
+        "🤖 AI对话"
     ])
 
     with tab1:
@@ -84,6 +87,8 @@ def main():
         show_debate_timeline()
     with tab4:
         show_system_overview()
+    with tab5:
+        show_ai_chat()
 
 
 if __name__ == "__main__":

@@ -5,8 +5,9 @@
 管理Streamlit应用的会话状态
 """
 
-import streamlit as st
 from typing import Dict, Any, List
+
+import streamlit as st
 
 
 class SessionManager:
@@ -43,6 +44,8 @@ class SessionManager:
             'debate_rounds': 0,
             'risk_debate_rounds': 0,
             'chat_history': [],
+            'ai_chat_messages': [],
+            'ai_chat_busy': False,
             'current_query': '',
             'pending_rerun': False,
         }
