@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m py_compile \"c:/Users/zpc/PycharmProjects/TradingAgents-MCPmode-main/src/web/app.py\" \"c:/Users/zpc/PycharmProjects/TradingAgents-MCPmode-main/src/web/pages/ai_chat.py\" \"c:/Users/zpc/PycharmProjects/TradingAgents-MCPmode-main/src/web/pages/__init__.py\" \"c:/Users/zpc/PycharmProjects/TradingAgents-MCPmode-main/src/web/session_manager.py\")"
+    ]
+  }
+}
