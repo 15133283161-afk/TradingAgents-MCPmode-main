@@ -1,13 +1,11 @@
-from typing import Dict, Any
 from datetime import datetime
 
-from ..base_agent import BaseAgent
 from ..agent_states import AgentState
+from ..base_agent import BaseAgent
 from ..mcp_manager import MCPManager
 
-
+"""激进风险分析师 - 倾向于承担更高风险以获取更高回报"""
 class AggressiveRiskAnalyst(BaseAgent):
-    """激进风险分析师 - 倾向于承担更高风险以获取更高回报"""
     
     def __init__(self, mcp_manager: MCPManager):
         super().__init__(
@@ -140,8 +138,8 @@ class AggressiveRiskAnalyst(BaseAgent):
         return state
 
 
+"""保守风险分析师 - 强调风险控制和资本保护"""
 class SafeRiskAnalyst(BaseAgent):
-    """保守风险分析师 - 强调风险控制和资本保护"""
     
     def __init__(self, mcp_manager: MCPManager):
         super().__init__(
@@ -254,8 +252,8 @@ class SafeRiskAnalyst(BaseAgent):
         return state
 
 
+"""中性风险分析师 - 平衡风险和收益的考量"""
 class NeutralRiskAnalyst(BaseAgent):
-    """中性风险分析师 - 平衡风险和收益的考量"""
     
     def __init__(self, mcp_manager: MCPManager):
         super().__init__(
@@ -368,8 +366,8 @@ class NeutralRiskAnalyst(BaseAgent):
         return state
 
 
+"""风险经理 - 负责评估风险辩论结果并做出最终风险决策"""
 class RiskManager(BaseAgent):
-    """风险经理 - 负责评估风险辩论结果并做出最终风险决策"""
     
     def __init__(self, mcp_manager: MCPManager):
         super().__init__(

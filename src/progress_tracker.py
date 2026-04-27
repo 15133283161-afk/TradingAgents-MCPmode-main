@@ -1,13 +1,13 @@
 import json
 import os
-import uuid
 import time
+import uuid
 from datetime import datetime
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 
 
 class ProgressTracker:
-    """简化的进度跟踪器 - 输出核心agent结果并保存到JSON"""
+    """输出核心agent结果并保存到JSON"""
     
     def __init__(self, session_id: str = None):
         # 生成强唯一的会话ID：微秒 + UUID短码，避免并发同秒冲突

@@ -7,14 +7,13 @@ JSON to Markdown Converter
 
 import json
 import os
+import re
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, Any, List, Optional
-import re
 
-
+"""JSON转Markdown转换器"""
 class JSONToMarkdownConverter:
-    """JSON转Markdown转换器"""
     
     def __init__(self, dump_dir: str = "src/dump", include_mcp_calls: bool = False, key_agents_only: bool = False):
         """初始化转换器

@@ -1,9 +1,8 @@
-from typing import Dict, Any, List, Optional
 from datetime import datetime
+from typing import Dict, Any, Optional
 
-
+"""状态管理器 - 管理智能体状态和工作流进度"""
 class StateManager:
-    """状态管理器 - 管理智能体状态和工作流进度"""
     def __init__(self):
         # 定义智能体执行顺序
         self.agent_order = [
@@ -15,7 +14,7 @@ class StateManager:
         self.agent_states = {}
         for agent in self.agent_order:
             self.agent_states[agent] = {
-                "status": "pending",  # pending, running, completed, failed
+                "status": "pending",
                 "start_time": None,
                 "end_time": None,
                 "progress": 0.0,
@@ -25,7 +24,7 @@ class StateManager:
             }
         # 工作流状态
         self.workflow_state = {
-            "status": "idle",  # idle, running, completed, failed
+            "status": "idle",
             "current_agent": None,
             "current_stage": "",
             "overall_progress": 0.0,

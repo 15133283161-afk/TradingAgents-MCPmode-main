@@ -1,12 +1,12 @@
 import json
 import os
 from datetime import datetime
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, Optional
 
 
 
+"""数据持久化管理器 - 确保所有AI生成内容完整保存"""
 class DataPersistence:
-    """数据持久化管理器 - 确保所有AI生成内容完整保存"""
     def __init__(self, session_id: str = None):
         self.progress_dir = "progress_logs"
         os.makedirs(self.progress_dir, exist_ok=True)

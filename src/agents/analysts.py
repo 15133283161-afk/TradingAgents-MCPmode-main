@@ -1,13 +1,12 @@
-from typing import Dict, Any
-
-from ..base_agent import BaseAgent
-from ..agent_states import AgentState
-from ..mcp_manager import MCPManager
 from datetime import datetime
 
+from ..agent_states import AgentState
+from ..base_agent import BaseAgent
+from ..mcp_manager import MCPManager
+
 current_datetime = datetime.now()
+"""公司概述分析师 - 负责获取公司基础信息和概览"""
 class CompanyOverviewAnalyst(BaseAgent):
-    """公司概述分析师 - 负责获取公司基础信息和概览"""
     
     def __init__(self, mcp_manager: MCPManager):
         super().__init__(
@@ -86,8 +85,8 @@ class CompanyOverviewAnalyst(BaseAgent):
         
         return state
 
+"""市场分析师 - 负责整体市场趋势分析"""
 class MarketAnalyst(BaseAgent):
-    """市场分析师 - 负责整体市场趋势分析"""
     
     def __init__(self, mcp_manager: MCPManager):
         super().__init__(
@@ -170,9 +169,8 @@ class MarketAnalyst(BaseAgent):
         
         return state
 
-
+"""产品分析师 - 负责公司主营业务和产品分析"""
 class ProductAnalyst(BaseAgent):
-    """产品分析师 - 负责公司主营业务和产品分析"""
     
     def __init__(self, mcp_manager: MCPManager):
         super().__init__(
@@ -258,9 +256,8 @@ class ProductAnalyst(BaseAgent):
         
         return state
 
-
+"""情绪分析师 - 负责社交媒体和市场情绪分析"""
 class SentimentAnalyst(BaseAgent):
-    """情绪分析师 - 负责社交媒体和市场情绪分析"""
     
     def __init__(self, mcp_manager: MCPManager):
         super().__init__(
@@ -333,9 +330,8 @@ class SentimentAnalyst(BaseAgent):
         
         return state
 
-
+"""新闻分析师 - 负责新闻事件和信息面分析"""
 class NewsAnalyst(BaseAgent):
-    """新闻分析师 - 负责新闻事件和信息面分析"""
     
     def __init__(self, mcp_manager: MCPManager):
         super().__init__(
@@ -408,9 +404,8 @@ class NewsAnalyst(BaseAgent):
         
         return state
 
-
+"""基本面分析师 - 负责公司财务和基本面分析"""
 class FundamentalsAnalyst(BaseAgent):
-    """基本面分析师 - 负责公司财务和基本面分析"""
     
     def __init__(self, mcp_manager: MCPManager):
         super().__init__(
@@ -490,9 +485,8 @@ class FundamentalsAnalyst(BaseAgent):
         
         return state
 
-
+"""股东分析师 - 负责股东结构和大宗交易分析"""
 class ShareholderAnalyst(BaseAgent):
-    """股东分析师 - 负责股东结构和大宗交易分析"""
     
     def __init__(self, mcp_manager: MCPManager):
         super().__init__(

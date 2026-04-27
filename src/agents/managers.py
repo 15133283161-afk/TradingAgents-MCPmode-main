@@ -1,13 +1,11 @@
-from typing import Dict, Any
 from datetime import datetime
 
-from ..base_agent import BaseAgent
 from ..agent_states import AgentState
+from ..base_agent import BaseAgent
 from ..mcp_manager import MCPManager
 
-
+"""研究经理 - 负责评估辩论结果并做出投资决策"""
 class ResearchManager(BaseAgent):
-    """研究经理 - 负责评估辩论结果并做出投资决策"""
     
     def __init__(self, mcp_manager: MCPManager):
         super().__init__(
@@ -106,9 +104,8 @@ class ResearchManager(BaseAgent):
         
         return state
 
-
+"""交易员 - 负责制定具体的交易执行计划"""
 class Trader(BaseAgent):
-    """交易员 - 负责制定具体的交易执行计划"""
     
     def __init__(self, mcp_manager: MCPManager):
         super().__init__(
