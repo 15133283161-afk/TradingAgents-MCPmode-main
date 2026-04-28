@@ -79,7 +79,7 @@ class WorkflowOrchestrator:
         workflow.add_node("fundamentals_analyst", self._fundamentals_analyst_node)
         workflow.add_node("shareholder_analyst", self._shareholder_analyst_node)
         workflow.add_node("product_analyst", self._product_analyst_node)
-        # 新增：分析师并行聚合节点
+        # 分析师并行聚合节点
         workflow.add_node("analysts_parallel", self._analysts_parallel_node)
         workflow.add_node("bull_researcher", self._bull_researcher_node)
         workflow.add_node("bear_researcher", self._bear_researcher_node)

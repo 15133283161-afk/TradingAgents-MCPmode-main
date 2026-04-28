@@ -1,13 +1,12 @@
-import os
 import json
-import asyncio
-import time
+import os
 import re
 from typing import Dict, Any, List, Optional
+
+from dotenv import load_dotenv
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from langchain_openai import ChatOpenAI
 from langgraph.prebuilt import create_react_agent
-from dotenv import load_dotenv
 
 
 class MCPManager:
@@ -67,7 +66,7 @@ class MCPManager:
         base_url = os.getenv("LLM_BASE_URL", "https://api.openai.com/v1")
         model_name = os.getenv("LLM_MODEL", "gpt-4")
         temperature = float(os.getenv("LLM_TEMPERATURE", "0.3"))
-        max_tokens = int(os.getenv("LLM_MAX_TOKENS", "4000"))
+        max_tokens = int(os.getenv("LLM_MAX_TOKENS", "6000"))
         llm = ChatOpenAI(
             model=model_name,
             api_key=api_key,
